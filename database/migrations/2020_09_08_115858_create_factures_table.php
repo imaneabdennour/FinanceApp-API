@@ -19,14 +19,14 @@ class CreateFacturesTable extends Migration
 
             //fk(Client):
             $table->string('client');
-            $table->foreign('client')->references('nom_entreprise')->on('clients');
+            $table->foreign('client')->references('nom_entreprise')->on('clients')->onDelete('cascade');
 
             $table->string('proforma');
             $table->string("condition");
 
             //fk(Navire):nom_navire
             $table->string('navire');
-            $table->foreign('navire')->references('nom_navire')->on('navires');
+            $table->foreign('navire')->references('nom_navire')->on('navires')->onDelete('cascade');
 
             $table->string("statut");
             $table->date("date");

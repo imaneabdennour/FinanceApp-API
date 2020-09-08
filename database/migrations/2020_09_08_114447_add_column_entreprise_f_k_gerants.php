@@ -16,7 +16,7 @@ class AddColumnEntrepriseFKGerants extends Migration
         Schema::table('gerants', function (Blueprint $table) {
            //fk(Client) : pk of Client is nom_entreprise :
            $table->string('entreprise');
-           $table->foreign('entreprise')->references('nom_entreprise')->on('clients');
+           $table->foreign('entreprise')->references('nom_entreprise')->on('clients')->onDelete('cascade');
         });
     }
 

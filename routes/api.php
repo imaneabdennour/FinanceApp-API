@@ -43,10 +43,11 @@ Route::put('gerant', "GerantController@store");
 Route::put('navire', "NavireController@store");
 
 //Delete client :
-Route::delete('client/{nom_entreprise}', "ClientController@destroy");
 Route::delete('facture/{num_commande}', "FactureController@destroy");
-//Route::delete('navire/{nom_navire}', "NavireController@destroy");
 Route::delete('gerant/{id}', "GerantController@destroy");
+Route::delete('client/{nom_entreprise}', "ClientController@destroy");
+Route::delete('navire/{nom_navire}', "NavireController@destroy");
+
 
 
 

@@ -43,7 +43,7 @@ class ClientController extends Controller
     {
         //put is for updating :
         //else : post is for creating a new client :
-        $client = $request->isMethod("put") ? Client::where('nom_entreprise', $request->nom_entreprise) : new Client;
+        $client = $request->isMethod("put") ? Client::where('nom_entreprise', $request->nom_entreprise)->first() : new Client;
 
         $client->nom_entreprise = $request->input('nom_entreprise');
         $client->adresse = $request->input('adresse');
@@ -105,7 +105,6 @@ class ClientController extends Controller
      */
     public function destroy($nom_entreprise)
     {
-        //works
          $client = Client::where('nom_entreprise', $nom_entreprise)->first();
 
          if($client->delete()){
