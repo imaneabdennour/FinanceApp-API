@@ -17,7 +17,7 @@ class CreateGerantsTable extends Migration
             $table->id();
             $table->string('civilité');
             $table->string('nom_complet');
-            
+
             $table->string('email');
             $table->string('telef');
             $table->timestamps();

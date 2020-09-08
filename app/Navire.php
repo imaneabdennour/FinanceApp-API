@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Client extends Model
+class Navire extends Model
 {
-    protected $primaryKey = 'nom_entreprise';
+    protected $primaryKey = 'nom_navire';
     public $incrementing  = false;
     protected  $keyType = 'string';
 }

@@ -28,7 +28,8 @@ class AddColumnEntrepriseFKGerants extends Migration
     public function down()
     {
         Schema::table('gerants', function (Blueprint $table) {
-            //
+            $table->dropColumn('entreprise');
+
         });
     }
 }
