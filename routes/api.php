@@ -24,25 +24,25 @@ Route::get("factures", "FactureController@index");
 Route::get("gerants", "GerantController@index");
 Route::get("navires", "NavireController@index");
 
-//List a single client :
+//List a single record :
 Route::get("client/{nom_entreprise}", "ClientController@show");
 Route::get("facture/{num_commande}", "FactureController@show");
 Route::get("gerant/{id}", "GerantController@show");
 Route::get("navire/{nom_navire}", "NavireController@show");
 
-//Create new client :
+//Create :
 Route::post('client', "ClientController@store");
 Route::post('facture', "FactureController@store");
 Route::post('gerant', "GerantController@store");
 Route::post('navire', "NavireController@store");
 
-//Update client :
+//Update :
 Route::put('client', "ClientController@store");
 Route::put('facture', "FactureController@store");
 Route::put('gerant', "GerantController@store");
 Route::put('navire', "NavireController@store");
 
-//Delete client :
+//Delete :
 Route::delete('facture/{num_commande}', "FactureController@destroy");
 Route::delete('gerant/{id}', "GerantController@destroy");
 Route::delete('client/{nom_entreprise}', "ClientController@destroy");
