@@ -4,22 +4,16 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap');
+import "./bootstrap";
+import Vue from "vue";
+//import Vuetify from "vuetify";
 
-window.Vue = require('vue');
+//window.Vue = require("vue");
 
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
+//Vue.use(Vuetify);
 
-// const files = require.context('./', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
-
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+//Vue.component("clients", require("./components/Clients.vue"));
+//Vue.component("navbar", require("./components/Navbar.vue"));
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -27,6 +21,14 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+import Home from "@/js/components/Home";
+
 const app = new Vue({
-    el: '#app',
+    el: "#app",
+    // vuetify: new Vuetify(),
+    components: {
+        Home
+    }
 });
+
+//export default app;
