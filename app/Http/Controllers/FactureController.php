@@ -18,7 +18,7 @@ class FactureController extends Controller
     public function index()
     {
         //Get factures :
-        $factures = Facture::paginate(15);
+        $factures = Facture::orderBy('created_at','desc')->paginate(5);
 
         return FactureResource::collection($factures);    //collection bcz it's a list
 

@@ -17,7 +17,7 @@ class NavireController extends Controller
     public function index()
     {
          //Get navires :
-         $navires = Navire::paginate(15);
+         $navires = Navire::orderBy('created_at','desc')->paginate(5);
 
          return NavireResource::collection($navires);    //collection bcz it's a list
 

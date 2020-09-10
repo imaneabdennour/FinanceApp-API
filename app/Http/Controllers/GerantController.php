@@ -17,7 +17,7 @@ class GerantController extends Controller
     public function index()
     {
          //Get gerants :
-         $gerants = Gerant::paginate(15);
+         $gerants = Gerant::orderBy('created_at','desc')->paginate(5);
 
          return GerantResource::collection($gerants);    //collection bcz it's a list
 

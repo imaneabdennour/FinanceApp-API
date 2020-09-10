@@ -17,7 +17,7 @@ class ClientController extends Controller
     public function index()
     {
         //Get clients :
-        $clients = Client::paginate(15);
+        $clients = Client::orderBy('created_at','desc')->paginate(5);
 
         //Return collection of clients as a resource : (bcz API)
         return ClientResource::collection($clients);    //collection bcz it's a list
