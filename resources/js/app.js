@@ -1,8 +1,12 @@
 import "./bootstrap";
 import Vue from "vue";
+//import VueRouter from "vue-router";
 
 import Navbar from "@/js//components/Navbar.vue";
 import Clients from "@/js//components/Clients.vue";
+import Factures from "@/js//components/Factures.vue";
+import Gerants from "@/js//components/Gerants.vue";
+import Navires from "@/js//components/Navires.vue";
 
 //import AppTopBar from "./AppTopbar.vue";
 
@@ -12,7 +16,10 @@ const app = new Vue({
     components: {
         //AppTopBar,
         Navbar,
-        Clients
+        Clients,
+        Factures,
+        Gerants,
+        Navires
     }
 });
 

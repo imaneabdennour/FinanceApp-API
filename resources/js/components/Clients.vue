@@ -33,7 +33,10 @@
         <input type="text" class="form-control" placeholder="ICE" v-model="client.ICE" />
       </div>
       <div class="form-group">
-        <input type="text" class="form-control" placeholder="Category" v-model="client.category" />
+        <select name="category" v-model="client.category">
+          <option disabled value>Category</option>
+          <option v-for="cat in categories" v-bind:key="cat">{{cat}}</option>
+        </select>
       </div>
 
       <button type="submit" class="btn btn-light btn-block">Save</button>
@@ -85,7 +88,7 @@ export default {
         ICE: "",
         category: "",
       },
-      client_id: "",
+      categories: ["Fournisseur", "Client"],
       pagination: {},
       edit: false, //same form to add and edit => if edit : we're going to update so edit = true
     };
