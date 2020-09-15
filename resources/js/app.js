@@ -9,6 +9,9 @@ Vue.use(VueRouter);
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 
+import form from "@/js//components/form.vue";
+
+import Style from "@/js//components/Style.vue";
 import Navbar from "@/js//components/Navbar.vue";
 import Clients from "@/js//components/Clients.vue";
 import ClientsList from "@/js//components/ClientsList.vue";
@@ -61,6 +64,11 @@ const router = new VueRouter({
             path: "/gerantsList",
             name: "gerantsList",
             component: GerantsList
+        },
+        {
+            path: "/form",
+            name: "form",
+            component: form
         }
 
     ]
@@ -76,7 +84,9 @@ const app = new Vue({
         Gerants,
         GerantsList,
         Navires,
-        ClientsList
+        ClientsList,
+        Style,
+        form
     },
     router
 });

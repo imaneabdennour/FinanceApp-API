@@ -156,46 +156,6 @@ export default {
           .catch(err => console.log(err));
       }
     },
-    addNavire() {
-      //used for add and update
-      if (this.edit === false) {
-        //Add
-        fetch("api/navire", {
-          method: "POST",
-          body: JSON.stringify(this.navire),
-          headers: {
-            "content-type": "application/json"
-          }
-        })
-          .then(res => res.json())
-          .then(data => {
-            //we wanna clear the form : empty it bcz it's binded with the inputs
-            (this.navire.nom_navire = ""),
-              (this.navire.statut = ""),
-              alert("Navire added");
-            this.fetchNavires();
-          })
-          .catch(err => console.log(err));
-      } else {
-        //Update
-        fetch("api/navire", {
-          method: "PUT",
-          body: JSON.stringify(this.navire),
-          headers: {
-            "content-type": "application/json"
-          }
-        })
-          .then(res => res.json())
-          .then(data => {
-            //we wanna clear the form : empty it bcz it's binded with the inputs
-            (this.navire.nom_navire = ""),
-              (this.navire.statut = ""),
-              alert("Navire updated");
-            this.fetchNavires();
-          })
-          .catch(err => console.log(err));
-      }
-    },
     editNavire(navire) {
       // change value of edit, then the form kiyakhd l values of my client
       // => then when i click save i update the client (calling addClient)

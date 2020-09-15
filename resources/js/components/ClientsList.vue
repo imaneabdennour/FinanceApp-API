@@ -168,58 +168,6 @@ export default {
           .catch(err => console.log(err));
       }
     },
-    addClient() {
-      //used for add and update
-      if (this.edit === false) {
-        //Add
-        fetch("api/client", {
-          method: "POST",
-          body: JSON.stringify(this.client),
-          headers: {
-            "content-type": "application/json"
-          }
-        })
-          .then(res => res.json())
-          .then(data => {
-            //we wanna clear the form : empty it bcz it's binded with the inputs
-            this.client.nom_entreprise = "";
-            this.client.adresse = "";
-            this.client.ville = "";
-            this.client.num_compte_bancaire = "";
-            this.client.RC = "";
-            this.client.ICE = "";
-            this.client.category = "";
-
-            alert("Client added");
-            this.fetchClients();
-          })
-          .catch(err => console.log(err));
-      } else {
-        //Update
-        fetch("api/client", {
-          method: "PUT",
-          body: JSON.stringify(this.client),
-          headers: {
-            "content-type": "application/json"
-          }
-        })
-          .then(res => res.json())
-          .then(data => {
-            //we wanna clear the form : empty it bcz it's binded with the inputs
-            this.client.nom_entreprise = "";
-            this.client.adresse = "";
-            this.client.ville = "";
-            this.client.num_compte_bancaire = "";
-            this.client.RC = "";
-            this.client.ICE = "";
-            this.client.category = "";
-
-            alert("Client updated");
-            this.fetchClients();
-          })
-          .catch(err => console.log(err));
-      }
-    },
     editClient(client) {
       // change value of edit, then the form kiyakhd l values of my client
       // => then when i click save i update the client (calling addClient)
@@ -233,14 +181,6 @@ export default {
       this.client.RC = client.RC;
       this.client.ICE = client.ICE;
       this.client.category = client.category;
-    },
-    onlyNumber($event) {
-      //console.log($event.keyCode); //keyCodes value
-      let keyCode = $event.keyCode ? $event.keyCode : $event.which;
-      if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) {
-        // 46 is dot
-        $event.preventDefault();
-      }
     }
   }
 };

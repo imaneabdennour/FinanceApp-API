@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <div style="width:50%; margin:auto;">
     <h2>Factures</h2>
 
     <form @submit.prevent="addFacture" method="post" class="mb-3">
       <div class="form-group">
-        <select name="category" v-model="facture.client">
+        <select name="category" v-model="facture.client" class="form-control">
           <option disabled value>Entreprise</option>
           <option
             v-for="entr in entreprises"
@@ -14,11 +14,12 @@
       </div>
 
       <div class="form-group">
-        <label for="proforma">Proforma</label>
-        Oui
+        <label for="proforma" style="margin-right:100px;">Proforma</label>
         <input type="radio" name="proforma" value="Oui" v-model="facture.proforma" />
-        Non
+        <span style="margin-right:20px;">Oui</span>
+
         <input type="radio" name="proforma" value="Non" v-model="facture.proforma" />
+        <span>Non</span>
       </div>
 
       <div class="form-group">
@@ -40,7 +41,7 @@
       </div>
 
       <div class="form-group">
-        <select name="condition" v-model="facture.condition">
+        <select name="condition" v-model="facture.condition" class="form-control">
           <option disabled value>Condition</option>
           <option v-for="cond in conditions" v-bind:key="cond">
             {{
@@ -51,17 +52,19 @@
       </div>
 
       <div class="form-group">
-        <select name="navire" v-model="facture.navire">
+        <select name="navire" v-model="facture.navire" class="form-control">
           <option disabled value>Navire</option>
           <option v-for="entr in naviresActif" v-bind:key="entr.nom_navire">{{ entr.nom_navire }}</option>
         </select>
       </div>
 
       <div class="form-group">
-        Payé
+        <label style="margin-right:100px;">Statut</label>
         <input type="radio" name="statu" value="Payé" v-model="facture.statut" />
-        Non payé
+        <span style="margin-right:20px;">Payé</span>
+
         <input type="radio" name="statu" value="Non payé" v-model="facture.statut" />
+        <span>Non payé</span>
       </div>
 
       <div class="form-group">
@@ -69,7 +72,7 @@
       </div>
 
       <div class="form-group">
-        <select name="navire" v-model="facture.nature">
+        <select name="navire" v-model="facture.nature" class="form-control">
           <option disabled value>Nature</option>
           <option v-for="nat in natures" v-bind:key="nat">
             {{
@@ -79,7 +82,12 @@
         </select>
       </div>
 
-      <button type="submit" class="btn btn-light btn-block">Save</button>
+      <button
+        type="submit"
+        class="btn btn-primary btn-block"
+        style=" width: 20%; margin: auto;"
+        @click="addFacture(facture.num_commande)"
+      >Save</button>
     </form>
   </div>
 </template>
@@ -178,21 +186,6 @@ export default {
       };
       this.pagination = pagination;
     },
-    deleteFacture(num_commande) {
-      //make delete request to our api
-      if (confirm("Are you sure ? ")) {
-        fetch("api/facture/" + num_commande, {
-          method: "delete"
-        })
-          .then(res => res.json()) //formate the data to json format
-          .then(data => {
-            //data is an object
-            alert("Facture deleted");
-            this.fetchFactures();
-          })
-          .catch(err => console.log(err));
-      }
-    },
     addFacture() {
       //used for add and update
       if (this.edit === false) {
@@ -248,23 +241,6 @@ export default {
           })
           .catch(err => console.log(err));
       }
-    },
-    editFacture(facture) {
-      // change value of edit, then the form kiyakhd l values of my client
-      // => then when i click save i update the client (calling addClient)
-      this.edit = true;
-
-      this.client.nom_entreprise = client.nom_entreprise;
-      //  this.client.id = client.nom_entreprise;
-      this.facture.num_commande = facture.num_commande;
-      this.facture.num_facture = facture.num_facture;
-      this.facture.client = facture.client;
-      this.facture.proforma = facture.proforma;
-      this.facture.condition = facture.condition;
-      this.facture.navire = facture.navire;
-      this.facture.statut = facture.statut;
-      this.facture.date = facture.date;
-      this.facture.nature = facture.nature;
     }
   }
 };

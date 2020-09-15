@@ -207,62 +207,6 @@ export default {
           .catch(err => console.log(err));
       }
     },
-    addFacture() {
-      //used for add and update
-      if (this.edit === false) {
-        //Add
-        fetch("api/facture", {
-          method: "POST",
-          body: JSON.stringify(this.facture),
-          headers: {
-            "content-type": "application/json"
-          }
-        })
-          .then(res => res.json())
-          .then(data => {
-            //we wanna clear the form : empty it bcz it's binded with the inputs
-            this.facture.num_commande = "";
-            this.facture.num_facture = "";
-            this.facture.client = "";
-            this.facture.proforma = "";
-            this.facture.condition = "";
-            this.facture.navire = "";
-            this.facture.statut = "";
-            this.facture.date = "";
-            this.facture.nature = "";
-
-            alert("Facture added");
-            this.fetchFactures();
-          })
-          .catch(err => console.log(err));
-      } else {
-        //Update
-        fetch("api/facture", {
-          method: "PUT",
-          body: JSON.stringify(this.facture),
-          headers: {
-            "content-type": "application/json"
-          }
-        })
-          .then(res => res.json())
-          .then(data => {
-            //we wanna clear the form : empty it bcz it's binded with the inputs
-            this.facture.num_commande = "";
-            this.facture.num_facture = "";
-            this.facture.client = "";
-            this.facture.proforma = "";
-            this.facture.condition = "";
-            this.facture.navire = "";
-            this.facture.statut = "";
-            this.facture.date = "";
-            this.facture.nature = "";
-
-            alert("Client updated");
-            this.fetchFactures();
-          })
-          .catch(err => console.log(err));
-      }
-    },
     editFacture(facture) {
       // change value of edit, then the form kiyakhd l values of my client
       // => then when i click save i update the client (calling addClient)

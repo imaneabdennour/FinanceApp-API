@@ -1,13 +1,14 @@
 <template>
-  <div>
+  <div style="width:50%; margin:auto;">
     <h2>Gerants</h2>
     <form @submit.prevent="addGerant" method="post" class="mb-3">
       <div class="form-group">
-        <label for="civilité">Civilité</label>
-        Mdm
+        <label for="civilité" style="margin-right:100px;">Civilité :</label>
         <input type="radio" name="civilité" value="Mdm" v-model="gerant.civilité" />
-        Mr
+        <span style="margin-right:20px;">Mdm</span>
+
         <input type="radio" name="civilité" value="Mr" v-model="gerant.civilité" />
+        <span>Mr</span>
       </div>
 
       <div class="form-group">
@@ -18,6 +19,7 @@
           v-model="gerant.nom_complet"
         />
       </div>
+
       <div class="form-group">
         <input type="email" class="form-control" placeholder="Email" v-model="gerant.email" />
       </div>
@@ -29,8 +31,9 @@
           v-model="gerant.telef"
         />
       </div>
+
       <div class="form-group">
-        <select name="category" v-model="gerant.entreprise">
+        <select name="category" v-model="gerant.entreprise" class="form-control">
           <option disabled value>Entreprise</option>
           <option
             v-for="entr in entreprises"
@@ -39,7 +42,11 @@
         </select>
       </div>
 
-      <button type="submit" class="btn btn-light btn-block">Save</button>
+      <button
+        type="submit"
+        class="btn btn-primary btn-block"
+        style=" width: 20%; margin: auto;"
+      >Save</button>
     </form>
   </div>
 </template>

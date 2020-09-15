@@ -1,9 +1,10 @@
 <template>
-  <div>
+  <div style="width:50%; margin:auto;">
     <h2>Navires</h2>
 
     <form @submit.prevent="addNavire" method="post" class="mb-3">
       <div class="form-group">
+        <label>Nom du navire</label>
         <input
           type="text"
           class="form-control"
@@ -12,13 +13,18 @@
         />
       </div>
       <div class="form-group">
-        <select name="category" v-model="navire.statut">
+        <label>Statut</label>
+        <select name="category" v-model="navire.statut" class="form-control">
           <option disabled value>Statut</option>
           <option v-for="stat in status" v-bind:key="stat">{{stat}}</option>
         </select>
       </div>
 
-      <button type="submit" class="btn btn-light btn-block">Save</button>
+      <button
+        type="submit"
+        class="btn btn-primary btn-block"
+        style=" width: 20%; margin: auto;"
+      >Save</button>
     </form>
   </div>
 </template>

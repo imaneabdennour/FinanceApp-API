@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div style="width:50%; margin:auto;">
     <h2>Clients</h2>
 
-    <form @submit.prevent="addClient" method="post" class="mb-3">
+    <form @submit.prevent="addClient" method="post" class="mb-4">
       <div class="form-group">
         <input
           type="text"
@@ -24,6 +24,7 @@
           placeholder="Num de compte bancaire"
           v-model="client.num_compte_bancaire"
           maxlength="16"
+          minlength="16"
           @keypress="onlyNumber"
         />
       </div>
@@ -34,7 +35,7 @@
         <input type="text" class="form-control" placeholder="ICE" v-model="client.ICE" />
       </div>
       <div class="form-group">
-        <select name="category" v-model="client.category">
+        <select name="category" v-model="client.category" class="form-control">
           <option disabled value>Category</option>
           <option v-for="cat in categories" v-bind:key="cat">
             {{
@@ -44,7 +45,12 @@
         </select>
       </div>
 
-      <button type="submit" class="btn btn-light btn-block">Save</button>
+      <button
+        type="submit"
+        class="btn btn-primary btn-block"
+        style=" width: 20%; margin: auto;"
+        @click="addClient(client.nom_entreprise)"
+      >Save</button>
     </form>
   </div>
 </template>
@@ -114,21 +120,6 @@ export default {
                 }
             */
     },
-    deleteClient(nom_entreprise) {
-      //make delete request to our api
-      if (confirm("Are you sure ? ")) {
-        fetch("api/client/" + nom_entreprise, {
-          method: "delete"
-        })
-          .then(res => res.json()) //formate the data to json format
-          .then(data => {
-            //data is an object
-            alert("Client deleted");
-            this.fetchClients();
-          })
-          .catch(err => console.log(err));
-      }
-    },
     addClient() {
       //used for add and update
       if (this.edit === false) {
@@ -180,20 +171,6 @@ export default {
           })
           .catch(err => console.log(err));
       }
-    },
-    editClient(client) {
-      // change value of edit, then the form kiyakhd l values of my client
-      // => then when i click save i update the client (calling addClient)
-      this.edit = true;
-
-      this.client.nom_entreprise = client.nom_entreprise;
-      //  this.client.id = client.nom_entreprise;
-      this.client.adresse = client.adresse;
-      this.client.ville = client.ville;
-      this.client.num_compte_bancaire = client.num_compte_bancaire;
-      this.client.RC = client.RC;
-      this.client.ICE = client.ICE;
-      this.client.category = client.category;
     },
     onlyNumber($event) {
       //console.log($event.keyCode); //keyCodes value
