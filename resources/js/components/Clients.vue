@@ -24,6 +24,7 @@
           placeholder="Num de compte bancaire"
           v-model="client.num_compte_bancaire"
           maxlength="16"
+          @keypress="onlyNumber"
         />
       </div>
       <div class="form-group">
@@ -35,41 +36,16 @@
       <div class="form-group">
         <select name="category" v-model="client.category">
           <option disabled value>Category</option>
-          <option v-for="cat in categories" v-bind:key="cat">{{cat}}</option>
+          <option v-for="cat in categories" v-bind:key="cat">
+            {{
+            cat
+            }}
+          </option>
         </select>
       </div>
 
       <button type="submit" class="btn btn-light btn-block">Save</button>
     </form>
-
-    <nav aria-label="Page navigation example">
-      <ul class="pagination">
-        <li class="page-item" v-bind:class="[{ disabled: !pagination.prev_page_url }]">
-          <a class="page-link" href="#" @click="fetchClients(pagination.prev_page_url)">Previous</a>
-        </li>
-
-        <li class="page-item disabled">
-          <a
-            href="#"
-            class="page-link text-dark"
-          >Page {{pagination.current_page}} of {{pagination.last_page}}</a>
-        </li>
-
-        <li class="page-item" v-bind:class="[{ disabled: !pagination.next_page_url }]">
-          <a class="page-link" href="#" @click="fetchClients(pagination.next_page_url)">Next</a>
-        </li>
-      </ul>
-    </nav>
-
-    <div class="card card-body" v-for="client in clients" :key="client.nom_entreprise">
-      <h3>{{ client.nom_entreprise }}</h3>
-      <p>{{ client.adresse }} | {{ client.ville }}</p>
-      <p>{{ client.category }}</p>
-
-      <hr />
-      <button @click="editClient(client)" class="btn btn-warning">Edit</button>
-      <button @click="deleteClient(client.nom_entreprise)" class="btn btn-danger">Delete</button>
-    </div>
   </div>
 </template>
 
@@ -86,11 +62,11 @@ export default {
         num_compte_bancaire: "",
         RC: "",
         ICE: "",
-        category: "",
+        category: ""
       },
       categories: ["Fournisseur", "Client"],
       pagination: {},
-      edit: false, //same form to add and edit => if edit : we're going to update so edit = true
+      edit: false //same form to add and edit => if edit : we're going to update so edit = true
     };
   },
   created() {
@@ -103,20 +79,20 @@ export default {
       let vm = this;
       page_url = page_url || "/api/clients";
       fetch(page_url)
-        .then((res) => res.json()) //formate the data to json format
-        .then((res) => {
+        .then(res => res.json()) //formate the data to json format
+        .then(res => {
           //res is an object
           this.clients = res.data;
           vm.makePagination(res.meta, res.links); //for pagination purposes
         })
-        .catch((err) => console.log("error fetching clients"));
+        .catch(err => console.log("error fetching clients"));
     },
     makePagination(meta, links) {
       let pagination = {
         current_page: meta.current_page,
         last_page: meta.last_page,
         next_page_url: links.next,
-        prev_page_url: links.prev,
+        prev_page_url: links.prev
       };
       this.pagination = pagination;
       /*
@@ -142,15 +118,15 @@ export default {
       //make delete request to our api
       if (confirm("Are you sure ? ")) {
         fetch("api/client/" + nom_entreprise, {
-          method: "delete",
+          method: "delete"
         })
-          .then((res) => res.json()) //formate the data to json format
-          .then((data) => {
+          .then(res => res.json()) //formate the data to json format
+          .then(data => {
             //data is an object
             alert("Client deleted");
             this.fetchClients();
           })
-          .catch((err) => console.log(err));
+          .catch(err => console.log(err));
       }
     },
     addClient() {
@@ -161,11 +137,11 @@ export default {
           method: "POST",
           body: JSON.stringify(this.client),
           headers: {
-            "content-type": "application/json",
-          },
+            "content-type": "application/json"
+          }
         })
-          .then((res) => res.json())
-          .then((data) => {
+          .then(res => res.json())
+          .then(data => {
             //we wanna clear the form : empty it bcz it's binded with the inputs
             this.client.nom_entreprise = "";
             this.client.adresse = "";
@@ -178,18 +154,18 @@ export default {
             alert("Client added");
             this.fetchClients();
           })
-          .catch((err) => console.log(err));
+          .catch(err => console.log(err));
       } else {
         //Update
         fetch("api/client", {
           method: "PUT",
           body: JSON.stringify(this.client),
           headers: {
-            "content-type": "application/json",
-          },
+            "content-type": "application/json"
+          }
         })
-          .then((res) => res.json())
-          .then((data) => {
+          .then(res => res.json())
+          .then(data => {
             //we wanna clear the form : empty it bcz it's binded with the inputs
             this.client.nom_entreprise = "";
             this.client.adresse = "";
@@ -202,7 +178,7 @@ export default {
             alert("Client updated");
             this.fetchClients();
           })
-          .catch((err) => console.log(err));
+          .catch(err => console.log(err));
       }
     },
     editClient(client) {
@@ -219,6 +195,14 @@ export default {
       this.client.ICE = client.ICE;
       this.client.category = client.category;
     },
-  },
+    onlyNumber($event) {
+      //console.log($event.keyCode); //keyCodes value
+      let keyCode = $event.keyCode ? $event.keyCode : $event.which;
+      if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) {
+        // 46 is dot
+        $event.preventDefault();
+      }
+    }
+  }
 };
 </script>

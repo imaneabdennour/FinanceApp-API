@@ -19,7 +19,7 @@
         />
       </div>
       <div class="form-group">
-        <input type="text" class="form-control" placeholder="Email" v-model="gerant.email" />
+        <input type="email" class="form-control" placeholder="Email" v-model="gerant.email" />
       </div>
       <div class="form-group">
         <input
@@ -35,40 +35,12 @@
           <option
             v-for="entr in entreprises"
             v-bind:key="entr.nom_entreprise"
-          >{{entr.nom_entreprise}}</option>
+          >{{ entr.nom_entreprise }}</option>
         </select>
       </div>
 
       <button type="submit" class="btn btn-light btn-block">Save</button>
     </form>
-
-    <nav aria-label="Page navigation example">
-      <ul class="pagination">
-        <li class="page-item" v-bind:class="[{ disabled: !pagination.prev_page_url }]">
-          <a class="page-link" href="#" @click="fetchGerants(pagination.prev_page_url)">Previous</a>
-        </li>
-
-        <li class="page-item disabled">
-          <a
-            href="#"
-            class="page-link text-dark"
-          >Page {{pagination.current_page}} of {{pagination.last_page}}</a>
-        </li>
-
-        <li class="page-item" v-bind:class="[{ disabled: !pagination.next_page_url }]">
-          <a class="page-link" href="#" @click="fetchGerants(pagination.next_page_url)">Next</a>
-        </li>
-      </ul>
-    </nav>
-
-    <div class="card card-body" v-for="gerant in gerants" :key="gerant.id">
-      <h3>{{ gerant.civilité }} {{gerant.nom_complet}}</h3>
-      <p>{{ gerant.email }} | {{ gerant.telef }}</p>
-
-      <hr />
-      <button @click="editGerant(gerant)" class="btn btn-warning">Edit</button>
-      <button @click="deleteGerant(gerant.id)" class="btn btn-danger">Delete</button>
-    </div>
   </div>
 </template>
 
@@ -83,13 +55,13 @@ export default {
         nom_complet: "",
         email: "",
         telef: "",
-        entreprise: "",
+        entreprise: ""
       },
       entreprises: [],
       pagination: {},
       paginationClient: {},
       edit: false, //same form to add and edit => if edit : we're going to update so edit = true
-      index: 0,
+      index: 0
     };
   },
   created() {
@@ -101,16 +73,16 @@ export default {
   methods: {
     fetchEntreprises() {
       fetch("/api/clients")
-        .then((res) => res.json()) //formate the data to json format
-        .then((res) => {
+        .then(res => res.json()) //formate the data to json format
+        .then(res => {
           this.index = res.meta.last_page;
           this.entreprises = res.data;
 
           if (this.index != 1) {
             for (let i = 2; i <= this.index; i++) {
               fetch("/api/clients?page=" + i)
-                .then((res) => res.json()) //formate the data to json format
-                .then((res) => {
+                .then(res => res.json()) //formate the data to json format
+                .then(res => {
                   //res is an object
                   this.entreprises = this.entreprises.concat(res.data);
                 });
@@ -124,20 +96,20 @@ export default {
       let vm = this;
       page_url = page_url || "/api/gerants";
       fetch(page_url)
-        .then((res) => res.json()) //formate the data to json format
-        .then((res) => {
+        .then(res => res.json()) //formate the data to json format
+        .then(res => {
           //res is an object
           this.gerants = res.data;
           vm.makePagination(res.meta, res.links); //for pagination purposes
         })
-        .catch((err) => console.log("error fetching gerants"));
+        .catch(err => console.log("error fetching gerants"));
     },
     makePagination(meta, links) {
       let pagination = {
         current_page: meta.current_page,
         last_page: meta.last_page,
         next_page_url: links.next,
-        prev_page_url: links.prev,
+        prev_page_url: links.prev
       };
       this.pagination = pagination;
     },
@@ -145,15 +117,15 @@ export default {
       //make delete request to our api
       if (confirm("Are you sure ? ")) {
         fetch("api/gerant/" + id, {
-          method: "delete",
+          method: "delete"
         })
-          .then((res) => res.json()) //formate the data to json format
-          .then((data) => {
+          .then(res => res.json()) //formate the data to json format
+          .then(data => {
             //data is an object
             alert("Gerant deleted");
             this.fetchGerants();
           })
-          .catch((err) => console.log(err));
+          .catch(err => console.log(err));
       }
     },
     addGerant() {
@@ -164,11 +136,11 @@ export default {
           method: "POST",
           body: JSON.stringify(this.gerant),
           headers: {
-            "content-type": "application/json",
-          },
+            "content-type": "application/json"
+          }
         })
-          .then((res) => res.json())
-          .then((data) => {
+          .then(res => res.json())
+          .then(data => {
             //we wanna clear the form : empty it bcz it's binded with the inputs
             this.gerant.id = "";
             this.gerant.civilité = "";
@@ -180,18 +152,18 @@ export default {
             alert("Gerant added");
             this.fetchGerants();
           })
-          .catch((err) => console.log(err));
+          .catch(err => console.log(err));
       } else {
         //Update
         fetch("api/gerant", {
           method: "PUT",
           body: JSON.stringify(this.gerant),
           headers: {
-            "content-type": "application/json",
-          },
+            "content-type": "application/json"
+          }
         })
-          .then((res) => res.json())
-          .then((data) => {
+          .then(res => res.json())
+          .then(data => {
             //we wanna clear the form : empty it bcz it's binded with the inputs
             this.gerant.id = "";
             this.gerant.civilité = "";
@@ -203,7 +175,7 @@ export default {
             alert("Gerant updated");
             this.fetchGerants();
           })
-          .catch((err) => console.log(err));
+          .catch(err => console.log(err));
       }
     },
     editGerant(gerant) {
@@ -217,7 +189,7 @@ export default {
       this.gerant.email = gerant.email;
       this.gerant.telef = gerant.telef;
       this.gerant.entreprise = gerant.entreprise;
-    },
-  },
+    }
+  }
 };
 </script>

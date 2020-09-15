@@ -5,8 +5,11 @@
     <form @submit.prevent="addFacture" method="post" class="mb-3">
       <div class="form-group">
         <select name="category" v-model="facture.client">
-          <option disabled value>Client</option>
-          <option v-for="cl in clients" v-bind:key="cl.nom_entreprise">{{cl.nom_entreprise}}</option>
+          <option disabled value>Entreprise</option>
+          <option
+            v-for="entr in entreprises"
+            v-bind:key="entr.nom_entreprise"
+          >{{ entr.nom_entreprise }}</option>
         </select>
       </div>
 
@@ -39,14 +42,18 @@
       <div class="form-group">
         <select name="condition" v-model="facture.condition">
           <option disabled value>Condition</option>
-          <option v-for="cond in conditions" v-bind:key="cond">{{cond}}</option>
+          <option v-for="cond in conditions" v-bind:key="cond">
+            {{
+            cond
+            }}
+          </option>
         </select>
       </div>
 
       <div class="form-group">
         <select name="navire" v-model="facture.navire">
           <option disabled value>Navire</option>
-          <option v-for="nav in naviresActif" v-bind:key="nav">{{nav}}</option>
+          <option v-for="entr in naviresActif" v-bind:key="entr.nom_navire">{{ entr.nom_navire }}</option>
         </select>
       </div>
 
@@ -64,39 +71,16 @@
       <div class="form-group">
         <select name="navire" v-model="facture.nature">
           <option disabled value>Nature</option>
-          <option v-for="nat in natures" v-bind:key="nat">{{nat}}</option>
+          <option v-for="nat in natures" v-bind:key="nat">
+            {{
+            nat
+            }}
+          </option>
         </select>
       </div>
 
       <button type="submit" class="btn btn-light btn-block">Save</button>
     </form>
-
-    <nav aria-label="Page navigation example">
-      <ul class="pagination">
-        <li class="page-item" v-bind:class="[{ disabled: !pagination.prev_page_url }]">
-          <a class="page-link" href="#" @click="fetchFactures(pagination.prev_page_url)">Previous</a>
-        </li>
-
-        <li class="page-item disabled">
-          <a
-            href="#"
-            class="page-link text-dark"
-          >Page {{pagination.current_page}} of {{pagination.last_page}}</a>
-        </li>
-
-        <li class="page-item" v-bind:class="[{ disabled: !pagination.next_page_url }]">
-          <a class="page-link" href="#" @click="fetchFactures(pagination.next_page_url)">Next</a>
-        </li>
-      </ul>
-    </nav>
-
-    <div class="card card-body" v-for="facture in factures" :key="facture.num_commande">
-      <h3>{{ facture.client }} || {{facture.num_commande}}</h3>
-
-      <hr />
-      <button @click="editFacture(facture)" class="btn btn-warning">Edit</button>
-      <button @click="deleteFacture(facture.num_commande)" class="btn btn-danger">Delete</button>
-    </div>
   </div>
 </template>
 
@@ -114,23 +98,24 @@ export default {
         navire: "",
         statut: "",
         date: "",
-        nature: "",
+        nature: ""
       },
-      clients: [],
+      entreprises: [],
       conditions: [
         "Chèque à 10 jrs",
         "Effet à 60 jrs",
-        "Réglé sur base proforma",
+        "Réglé sur base proforma"
       ],
       naviresActif: [],
       natures: ["Marge de transformation", "Fraix d'extension", "Transport"],
       pagination: {},
-      edit: false, //same form to add and edit => if edit : we're going to update so edit = true
+      edit: false //same form to add and edit => if edit : we're going to update so edit = true
     };
   },
   created() {
-    //fetch clients :
     this.fetchFactures();
+    this.fetchEntreprises();
+    this.fetchNavires();
   },
   methods: {
     fetchFactures(page_url) {
@@ -138,20 +123,58 @@ export default {
       let vm = this;
       page_url = page_url || "/api/factures";
       fetch(page_url)
-        .then((res) => res.json()) //formate the data to json format
-        .then((res) => {
+        .then(res => res.json()) //formate the data to json format
+        .then(res => {
           //res is an object
           this.factures = res.data;
           vm.makePagination(res.meta, res.links); //for pagination purposes
         })
-        .catch((err) => console.log("error fetching factures"));
+        .catch(err => console.log("error fetching factures"));
+    },
+    fetchEntreprises() {
+      fetch("/api/clients")
+        .then(res => res.json()) //formate the data to json format
+        .then(res => {
+          this.index = res.meta.last_page;
+          this.entreprises = res.data;
+
+          if (this.index != 1) {
+            for (let i = 2; i <= this.index; i++) {
+              fetch("/api/clients?page=" + i)
+                .then(res => res.json()) //formate the data to json format
+                .then(res => {
+                  //res is an object
+                  this.entreprises = this.entreprises.concat(res.data);
+                });
+            }
+          }
+        });
+    },
+    fetchNavires() {
+      fetch("/api/navires")
+        .then(res => res.json())
+        .then(res => {
+          this.index = res.meta.last_page;
+          this.naviresActif = res.data;
+
+          if (this.index != 1) {
+            for (let i = 2; i <= this.index; i++) {
+              fetch("/api/navires?page=" + i)
+                .then(res => res.json())
+                .then(res => {
+                  this.naviresActif = this.naviresActif.concat(res.data);
+                });
+            }
+          }
+        })
+        .catch(err => console.log(err));
     },
     makePagination(meta, links) {
       let pagination = {
         current_page: meta.current_page,
         last_page: meta.last_page,
         next_page_url: links.next,
-        prev_page_url: links.prev,
+        prev_page_url: links.prev
       };
       this.pagination = pagination;
     },
@@ -159,15 +182,15 @@ export default {
       //make delete request to our api
       if (confirm("Are you sure ? ")) {
         fetch("api/facture/" + num_commande, {
-          method: "delete",
+          method: "delete"
         })
-          .then((res) => res.json()) //formate the data to json format
-          .then((data) => {
+          .then(res => res.json()) //formate the data to json format
+          .then(data => {
             //data is an object
             alert("Facture deleted");
             this.fetchFactures();
           })
-          .catch((err) => console.log(err));
+          .catch(err => console.log(err));
       }
     },
     addFacture() {
@@ -178,11 +201,11 @@ export default {
           method: "POST",
           body: JSON.stringify(this.facture),
           headers: {
-            "content-type": "application/json",
-          },
+            "content-type": "application/json"
+          }
         })
-          .then((res) => res.json())
-          .then((data) => {
+          .then(res => res.json())
+          .then(data => {
             //we wanna clear the form : empty it bcz it's binded with the inputs
             this.facture.num_commande = "";
             this.facture.num_facture = "";
@@ -197,18 +220,18 @@ export default {
             alert("Facture added");
             this.fetchFactures();
           })
-          .catch((err) => console.log(err));
+          .catch(err => console.log(err));
       } else {
         //Update
         fetch("api/facture", {
           method: "PUT",
           body: JSON.stringify(this.facture),
           headers: {
-            "content-type": "application/json",
-          },
+            "content-type": "application/json"
+          }
         })
-          .then((res) => res.json())
-          .then((data) => {
+          .then(res => res.json())
+          .then(data => {
             //we wanna clear the form : empty it bcz it's binded with the inputs
             this.facture.num_commande = "";
             this.facture.num_facture = "";
@@ -223,7 +246,7 @@ export default {
             alert("Client updated");
             this.fetchFactures();
           })
-          .catch((err) => console.log(err));
+          .catch(err => console.log(err));
       }
     },
     editFacture(facture) {
@@ -242,7 +265,7 @@ export default {
       this.facture.statut = facture.statut;
       this.facture.date = facture.date;
       this.facture.nature = facture.nature;
-    },
-  },
+    }
+  }
 };
 </script>
