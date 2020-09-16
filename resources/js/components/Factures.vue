@@ -35,6 +35,7 @@
           class="form-control"
           placeholder="Num de commande"
           v-model="facture.num_commande"
+          @keypress="onlyNumber"
         />
       </div>
 
@@ -64,11 +65,9 @@
         <input type="radio" name="statu" value="Non payé" v-model="facture.statut" />
         <span>Non payé</span>
       </div>
-
       <div class="form-group">
-        <input type="date" class="form-control" v-model="facture.date" />
+        <input type="date" value="dateFormate" class="form-control" v-model="facture.date" />
       </div>
-
       <div class="form-group">
         <select name="navire" v-model="facture.nature" class="form-control">
           <option disabled value>-- Nature --</option>
@@ -79,7 +78,6 @@
           </option>
         </select>
       </div>
-
       <button
         type="submit"
         class="btn btn-primary btn-block"
@@ -102,14 +100,8 @@ export default {
         condition: "",
         navire: "",
         statut: "",
-        date: ""
+        date: "" //date format : "2020-03-13"
       },
-      /*Mydate:
-        new Date().getDate() +
-        "/" +
-        new Date().getMonth() +
-        "/" +
-        new Date().getFullYear(),*/
       entreprises: [],
       conditions: [
         "Chèque à 10 jrs",
@@ -126,8 +118,33 @@ export default {
     this.fetchFactures();
     this.fetchEntreprises();
     this.fetchNavires();
+
+    this.dateFormate();
+  },
+  computed: {
+    dateFormate() {
+      let year = new Date().getFullYear();
+      let month = new Date().getUTCMonth() + 1;
+      let day = new Date().getDate();
+
+      let z = "0";
+
+      if (month >= 10) {
+        z = "";
+      }
+
+      this.facture.date = year + "-" + z + month + "-" + day;
+    }
   },
   methods: {
+    onlyNumber($event) {
+      //console.log($event.keyCode); //keyCodes value
+      let keyCode = $event.keyCode ? $event.keyCode : $event.which;
+      if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) {
+        // 46 is dot
+        $event.preventDefault();
+      }
+    },
     fetchFactures(page_url) {
       //depends on pagination
       let vm = this;

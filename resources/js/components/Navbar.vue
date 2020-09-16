@@ -22,7 +22,7 @@
             </a>
             <a class="dropdown-item" href="#">
               <router-link :to="{ name: 'facturesList' }">
-                <a class="dropdown-item" href="#">Factures</a>
+                <a class="dropdown-item" href="#">Facture list</a>
               </router-link>
             </a>
           </div>
