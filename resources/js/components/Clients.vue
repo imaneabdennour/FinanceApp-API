@@ -1,6 +1,7 @@
 <template>
-  <div style="width:50%; margin:auto;">
-    <h2>Clients</h2>
+  <div style="width:50%; margin:auto; background-color:white;padding:20px; margin-top:15px;">
+    <h2 class="center">Ajouter un client</h2>
+    <br />
 
     <form @submit.prevent="addClient" method="post" class="mb-4">
       <div class="form-group">
@@ -49,7 +50,6 @@
         type="submit"
         class="btn btn-primary btn-block"
         style=" width: 20%; margin: auto;"
-        @click="addClient(client.nom_entreprise)"
       >Save</button>
     </form>
   </div>

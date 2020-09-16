@@ -1,6 +1,8 @@
 <template>
-  <div style="width:50%; margin:auto;">
-    <h2>Gerants</h2>
+  <div style="width:50%; margin:auto; background-color:white;padding:20px; margin-top:15px;">
+    <h2 class="center">Ajouter un gérant</h2>
+    <br />
+
     <form @submit.prevent="addGerant" method="post" class="mb-3">
       <div class="form-group">
         <label for="civilité" style="margin-right:100px;">Civilité :</label>

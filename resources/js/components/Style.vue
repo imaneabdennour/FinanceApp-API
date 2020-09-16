@@ -1,6 +1,9 @@
 
 <template></template>
 <style>
+.center {
+  text-align: center;
+}
 body {
   color: #404e67;
   background: #f5f7fa;

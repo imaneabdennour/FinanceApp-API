@@ -1,15 +1,13 @@
 <template>
-  <div style="width:50%; margin:auto;">
-    <h2>Factures</h2>
+  <div style="width:50%; margin:auto; background-color:white;padding:20px; margin-top:15px;">
+    <h2 class="center">Gestion de Facture</h2>
+    <br />
 
     <form @submit.prevent="addFacture" method="post" class="mb-3">
       <div class="form-group">
         <select name="category" v-model="facture.client" class="form-control">
           <option disabled value>Entreprise</option>
-          <option
-            v-for="entr in entreprises"
-            v-bind:key="entr.nom_entreprise"
-          >{{ entr.nom_entreprise }}</option>
+          <option v-for="entr in entreprises" v-bind:key="entr.entreprise">{{ entr.nom_entreprise }}</option>
         </select>
       </div>
 
@@ -86,7 +84,6 @@
         type="submit"
         class="btn btn-primary btn-block"
         style=" width: 20%; margin: auto;"
-        @click="addFacture(facture.num_commande)"
       >Save</button>
     </form>
   </div>
@@ -188,6 +185,7 @@ export default {
     },
     addFacture() {
       //used for add and update
+      console.log("test");
       if (this.edit === false) {
         //Add
         fetch("api/facture", {

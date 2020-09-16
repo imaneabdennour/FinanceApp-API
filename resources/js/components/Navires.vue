@@ -1,6 +1,7 @@
 <template>
-  <div style="width:50%; margin:auto;">
-    <h2>Navires</h2>
+  <div style="width:50%; margin:auto; background-color:white;padding:20px; margin-top:15px;">
+    <h2 class="center">Ajouter un navire</h2>
+    <br />
 
     <form @submit.prevent="addNavire" method="post" class="mb-3">
       <div class="form-group">
