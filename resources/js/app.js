@@ -22,6 +22,10 @@ import GerantsList from "@/js//components/GerantsList.vue";
 import Navires from "@/js//components/Navires.vue";
 import NaviresList from "@/js//components/NaviresList.vue";
 
+import VueTelInput from 'vue-tel-input'
+
+Vue.use(VueTelInput)
+
 const router = new VueRouter({
     mode: "history",
     routes: [

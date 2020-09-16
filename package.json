@@ -27,6 +27,7 @@
         "bootstrap-vue": "^2.17.0",
         "vue-router": "^3.4.3",
         "vue-sidebar-menu": "^4.7.1",
+        "vue-tel-input": "^4.4.0",
         "vuetify": "^2.3.10"
     }
 }

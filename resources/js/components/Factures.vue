@@ -6,7 +6,7 @@
     <form @submit.prevent="addFacture" method="post" class="mb-3">
       <div class="form-group">
         <select name="category" v-model="facture.client" class="form-control">
-          <option disabled value>Entreprise</option>
+          <option disabled value>-- Entreprise --</option>
           <option v-for="entr in entreprises" v-bind:key="entr.entreprise">{{ entr.nom_entreprise }}</option>
         </select>
       </div>
@@ -40,7 +40,7 @@
 
       <div class="form-group">
         <select name="condition" v-model="facture.condition" class="form-control">
-          <option disabled value>Condition</option>
+          <option disabled value>-- Condition --</option>
           <option v-for="cond in conditions" v-bind:key="cond">
             {{
             cond
@@ -51,7 +51,7 @@
 
       <div class="form-group">
         <select name="navire" v-model="facture.navire" class="form-control">
-          <option disabled value>Navire</option>
+          <option disabled value>-- Navire --</option>
           <option v-for="entr in naviresActif" v-bind:key="entr.nom_navire">{{ entr.nom_navire }}</option>
         </select>
       </div>
@@ -71,7 +71,7 @@
 
       <div class="form-group">
         <select name="navire" v-model="facture.nature" class="form-control">
-          <option disabled value>Nature</option>
+          <option disabled value>-- Nature --</option>
           <option v-for="nat in natures" v-bind:key="nat">
             {{
             nat
@@ -102,9 +102,14 @@ export default {
         condition: "",
         navire: "",
         statut: "",
-        date: "",
-        nature: ""
+        date: ""
       },
+      /*Mydate:
+        new Date().getDate() +
+        "/" +
+        new Date().getMonth() +
+        "/" +
+        new Date().getFullYear(),*/
       entreprises: [],
       conditions: [
         "Chèque à 10 jrs",

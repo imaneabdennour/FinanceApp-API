@@ -25,13 +25,14 @@
       <div class="form-group">
         <input type="email" class="form-control" placeholder="Email" v-model="gerant.email" />
       </div>
+
       <div class="form-group">
-        <input
-          type="text"
+        <vue-tel-input
+          validCharactersOnly="true"
+          placeholder="Entrer un num de telef"
           class="form-control"
-          placeholder="Telefone number"
-          v-model="gerant.telef"
-        />
+          @input="onInput"
+        ></vue-tel-input>
       </div>
 
       <div class="form-group">
@@ -80,6 +81,9 @@ export default {
   },
   mounted() {},
   methods: {
+    onInput(formattedNumber, { number, valid, country }) {
+      this.gerant.telef = number.international;
+    },
     fetchEntreprises() {
       fetch("/api/clients")
         .then(res => res.json()) //formate the data to json format
