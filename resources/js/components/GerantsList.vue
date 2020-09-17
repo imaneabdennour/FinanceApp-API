@@ -94,66 +94,45 @@ export default {
     return {
       gerants: [],
       gerant: {
-        id: 5,
+        id: "",
         civilité: "",
         nom_complet: "",
         email: "",
         telef: "",
-        entreprise: ""
+        entreprise: "",
       },
       entreprises: [],
       pagination: {},
       paginationClient: {},
       edit: false, //same form to add and edit => if edit : we're going to update so edit = true
-      index: 0
+      index: 0,
     };
   },
   created() {
     //fetch gerants :
     this.fetchGerants();
-    this.fetchEntreprises();
   },
   mounted() {},
   methods: {
-    fetchEntreprises() {
-      fetch("/api/clients")
-        .then(res => res.json()) //formate the data to json format
-        .then(res => {
-          this.index = res.meta.last_page;
-          this.entreprises = res.data;
-
-          if (this.index != 1) {
-            for (let i = 2; i <= this.index; i++) {
-              fetch("/api/clients?page=" + i)
-                .then(res => res.json()) //formate the data to json format
-                .then(res => {
-                  //res is an object
-                  this.entreprises = this.entreprises.concat(res.data);
-                });
-            }
-          }
-        });
-    },
-
     fetchGerants(page_url) {
       //depends on pagination
       let vm = this;
       page_url = page_url || "/api/gerants";
       fetch(page_url)
-        .then(res => res.json()) //formate the data to json format
-        .then(res => {
+        .then((res) => res.json()) //formate the data to json format
+        .then((res) => {
           //res is an object
           this.gerants = res.data;
           vm.makePagination(res.meta, res.links); //for pagination purposes
         })
-        .catch(err => console.log("error fetching gerants"));
+        .catch((err) => console.log("error fetching gerants"));
     },
     makePagination(meta, links) {
       let pagination = {
         current_page: meta.current_page,
         last_page: meta.last_page,
         next_page_url: links.next,
-        prev_page_url: links.prev
+        prev_page_url: links.prev,
       };
       this.pagination = pagination;
     },
@@ -161,15 +140,15 @@ export default {
       //make delete request to our api
       if (confirm("Are you sure ? ")) {
         fetch("api/gerant/" + id, {
-          method: "delete"
+          method: "delete",
         })
-          .then(res => res.json()) //formate the data to json format
-          .then(data => {
+          .then((res) => res.json()) //formate the data to json format
+          .then((data) => {
             //data is an object
             alert("Gerant deleted");
             this.fetchGerants();
           })
-          .catch(err => console.log(err));
+          .catch((err) => console.log(err));
       }
     },
     editGerant(gerant) {
@@ -183,7 +162,7 @@ export default {
       this.gerant.email = gerant.email;
       this.gerant.telef = gerant.telef;
       this.gerant.entreprise = gerant.entreprise;
-    }
-  }
+    },
+  },
 };
 </script>

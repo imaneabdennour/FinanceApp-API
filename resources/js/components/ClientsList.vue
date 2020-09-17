@@ -103,7 +103,6 @@ export default {
         ICE: "",
         category: ""
       },
-      categories: ["Fournisseur", "Client"],
       pagination: {},
       edit: false //same form to add and edit => if edit : we're going to update so edit = true
     };

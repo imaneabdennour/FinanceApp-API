@@ -26,6 +26,7 @@
           class="form-control"
           placeholder="Num de facture"
           v-model="facture.num_facture"
+          disabled
         />
       </div>
 
@@ -36,6 +37,7 @@
           placeholder="Num de commande"
           v-model="facture.num_commande"
           @keypress="onlyNumber"
+          disabled
         />
       </div>
 
@@ -100,22 +102,21 @@ export default {
         condition: "",
         navire: "",
         statut: "",
-        date: "" //date format : "2020-03-13"
+        date: "", //date format : "2020-03-13"
       },
       entreprises: [],
       conditions: [
         "Chèque à 10 jrs",
         "Effet à 60 jrs",
-        "Réglé sur base proforma"
+        "Réglé sur base proforma",
       ],
       naviresActif: [],
       natures: ["Marge de transformation", "Fraix d'extension", "Transport"],
       pagination: {},
-      edit: false //same form to add and edit => if edit : we're going to update so edit = true
+      edit: false, //same form to add and edit => if edit : we're going to update so edit = true
     };
   },
   created() {
-    this.fetchFactures();
     this.fetchEntreprises();
     this.fetchNavires();
 
@@ -134,7 +135,7 @@ export default {
       }
 
       this.facture.date = year + "-" + z + month + "-" + day;
-    }
+    },
   },
   methods: {
     onlyNumber($event) {
@@ -145,31 +146,18 @@ export default {
         $event.preventDefault();
       }
     },
-    fetchFactures(page_url) {
-      //depends on pagination
-      let vm = this;
-      page_url = page_url || "/api/factures";
-      fetch(page_url)
-        .then(res => res.json()) //formate the data to json format
-        .then(res => {
-          //res is an object
-          this.factures = res.data;
-          vm.makePagination(res.meta, res.links); //for pagination purposes
-        })
-        .catch(err => console.log("error fetching factures"));
-    },
     fetchEntreprises() {
       fetch("/api/clients")
-        .then(res => res.json()) //formate the data to json format
-        .then(res => {
+        .then((res) => res.json()) //formate the data to json format
+        .then((res) => {
           this.index = res.meta.last_page;
           this.entreprises = res.data;
 
           if (this.index != 1) {
             for (let i = 2; i <= this.index; i++) {
               fetch("/api/clients?page=" + i)
-                .then(res => res.json()) //formate the data to json format
-                .then(res => {
+                .then((res) => res.json()) //formate the data to json format
+                .then((res) => {
                   //res is an object
                   this.entreprises = this.entreprises.concat(res.data);
                 });
@@ -179,31 +167,22 @@ export default {
     },
     fetchNavires() {
       fetch("/api/navires")
-        .then(res => res.json())
-        .then(res => {
+        .then((res) => res.json())
+        .then((res) => {
           this.index = res.meta.last_page;
           this.naviresActif = res.data;
 
           if (this.index != 1) {
             for (let i = 2; i <= this.index; i++) {
               fetch("/api/navires?page=" + i)
-                .then(res => res.json())
-                .then(res => {
+                .then((res) => res.json())
+                .then((res) => {
                   this.naviresActif = this.naviresActif.concat(res.data);
                 });
             }
           }
         })
-        .catch(err => console.log(err));
-    },
-    makePagination(meta, links) {
-      let pagination = {
-        current_page: meta.current_page,
-        last_page: meta.last_page,
-        next_page_url: links.next,
-        prev_page_url: links.prev
-      };
-      this.pagination = pagination;
+        .catch((err) => console.log(err));
     },
     addFacture() {
       //used for add and update
@@ -214,11 +193,11 @@ export default {
           method: "POST",
           body: JSON.stringify(this.facture),
           headers: {
-            "content-type": "application/json"
-          }
+            "content-type": "application/json",
+          },
         })
-          .then(res => res.json())
-          .then(data => {
+          .then((res) => res.json())
+          .then((data) => {
             //we wanna clear the form : empty it bcz it's binded with the inputs
             this.facture.num_commande = "";
             this.facture.num_facture = "";
@@ -233,18 +212,18 @@ export default {
             alert("Facture added");
             this.fetchFactures();
           })
-          .catch(err => console.log(err));
+          .catch((err) => console.log(err));
       } else {
         //Update
         fetch("api/facture", {
           method: "PUT",
           body: JSON.stringify(this.facture),
           headers: {
-            "content-type": "application/json"
-          }
+            "content-type": "application/json",
+          },
         })
-          .then(res => res.json())
-          .then(data => {
+          .then((res) => res.json())
+          .then((data) => {
             //we wanna clear the form : empty it bcz it's binded with the inputs
             this.facture.num_commande = "";
             this.facture.num_facture = "";
@@ -259,9 +238,9 @@ export default {
             alert("Client updated");
             this.fetchFactures();
           })
-          .catch(err => console.log(err));
+          .catch((err) => console.log(err));
       }
-    }
-  }
+    },
+  },
 };
 </script>

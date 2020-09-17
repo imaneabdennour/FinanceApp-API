@@ -68,58 +68,14 @@ export default {
         num_compte_bancaire: "",
         RC: "",
         ICE: "",
-        category: ""
+        category: "",
       },
       categories: ["Fournisseur", "Client"],
       pagination: {},
-      edit: false //same form to add and edit => if edit : we're going to update so edit = true
+      edit: false, //same form to add and edit => if edit : we're going to update so edit = true
     };
   },
-  created() {
-    //fetch clients :
-    this.fetchClients();
-  },
   methods: {
-    fetchClients(page_url) {
-      //depends on pagination
-      let vm = this;
-      page_url = page_url || "/api/clients";
-      fetch(page_url)
-        .then(res => res.json()) //formate the data to json format
-        .then(res => {
-          //res is an object
-          this.clients = res.data;
-          vm.makePagination(res.meta, res.links); //for pagination purposes
-        })
-        .catch(err => console.log("error fetching clients"));
-    },
-    makePagination(meta, links) {
-      let pagination = {
-        current_page: meta.current_page,
-        last_page: meta.last_page,
-        next_page_url: links.next,
-        prev_page_url: links.prev
-      };
-      this.pagination = pagination;
-      /*
-            Exemple :
-                "links": {
-                    "first": "http://127.0.0.1:8000/api/clients?page=1",
-                    "last": "http://127.0.0.1:8000/api/clients?page=1",
-                    "prev": null,
-                    "next": null
-                },
-                "meta": {
-                    "current_page": 1,
-                    "from": 1,
-                    "last_page": 1,
-                    "path": "http://127.0.0.1:8000/api/clients",
-                    "per_page": 5,
-                    "to": 2,
-                    "total": 2
-                }
-            */
-    },
     addClient() {
       //used for add and update
       if (this.edit === false) {
@@ -128,11 +84,11 @@ export default {
           method: "POST",
           body: JSON.stringify(this.client),
           headers: {
-            "content-type": "application/json"
-          }
+            "content-type": "application/json",
+          },
         })
-          .then(res => res.json())
-          .then(data => {
+          .then((res) => res.json())
+          .then((data) => {
             //we wanna clear the form : empty it bcz it's binded with the inputs
             this.client.nom_entreprise = "";
             this.client.adresse = "";
@@ -145,18 +101,18 @@ export default {
             alert("Client added");
             this.fetchClients();
           })
-          .catch(err => console.log(err));
+          .catch((err) => console.log(err));
       } else {
         //Update
         fetch("api/client", {
           method: "PUT",
           body: JSON.stringify(this.client),
           headers: {
-            "content-type": "application/json"
-          }
+            "content-type": "application/json",
+          },
         })
-          .then(res => res.json())
-          .then(data => {
+          .then((res) => res.json())
+          .then((data) => {
             //we wanna clear the form : empty it bcz it's binded with the inputs
             this.client.nom_entreprise = "";
             this.client.adresse = "";
@@ -169,7 +125,7 @@ export default {
             alert("Client updated");
             this.fetchClients();
           })
-          .catch(err => console.log(err));
+          .catch((err) => console.log(err));
       }
     },
     onlyNumber($event) {
@@ -179,7 +135,7 @@ export default {
         // 46 is dot
         $event.preventDefault();
       }
-    }
-  }
+    },
+  },
 };
 </script>

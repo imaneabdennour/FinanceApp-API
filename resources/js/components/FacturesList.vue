@@ -6,11 +6,20 @@
           <div class="table-title">
             <nav aria-label="Page navigation example">
               <ul class="pagination">
-                <li class="page-item" v-bind:class="[{ disabled: !pagination.prev_page_url }]">
+                <li
+                  class="page-item"
+                  v-bind:class="[
+                                        { disabled: !pagination.prev_page_url }
+                                    ]"
+                >
                   <a
                     class="page-link"
                     href="#"
-                    @click="fetchFactures(pagination.prev_page_url)"
+                    @click="
+                                            fetchFactures(
+                                                pagination.prev_page_url
+                                            )
+                                        "
                   >Previous</a>
                 </li>
 
@@ -21,11 +30,20 @@
                   </a>
                 </li>
 
-                <li class="page-item" v-bind:class="[{ disabled: !pagination.next_page_url }]">
+                <li
+                  class="page-item"
+                  v-bind:class="[
+                                        { disabled: !pagination.next_page_url }
+                                    ]"
+                >
                   <a
                     class="page-link"
                     href="#"
-                    @click="fetchFactures(pagination.next_page_url)"
+                    @click="
+                                            fetchFactures(
+                                                pagination.next_page_url
+                                            )
+                                        "
                   >Next</a>
                 </li>
               </ul>
@@ -33,7 +51,7 @@
             <div class="row">
               <div class="col-sm-8">
                 <h2>
-                  Employee
+                  Facture
                   <b>Details</b>
                 </h2>
               </div>
@@ -62,15 +80,15 @@
             </thead>
             <tbody>
               <tr v-for="fac in factures" v-bind:key="fac.num_commande">
-                <td>{{fac.client}}</td>
-                <td>{{fac.proforma}}</td>
-                <td>{{fac.num_facture}}</td>
-                <td>{{fac.num_commande}}</td>
-                <td>{{fac.condition}}</td>
-                <td>{{fac.navire}}</td>
-                <td>{{fac.statut}}</td>
-                <td>{{fac.date}}</td>
-                <td>{{fac.nature}}</td>
+                <td>{{ fac.client }}</td>
+                <td>{{ fac.proforma }}</td>
+                <td>{{ fac.num_facture }}</td>
+                <td>{{ fac.num_commande }}</td>
+                <td>{{ fac.condition }}</td>
+                <td>{{ fac.navire }}</td>
+                <td>{{ fac.statut }}</td>
+                <td>{{ fac.date }}</td>
+                <td>{{ fac.nature }}</td>
 
                 <td>
                   <a class="add" title="Add" data-toggle="tooltip">
@@ -83,7 +101,9 @@
                     class="delete"
                     title="Delete"
                     data-toggle="tooltip"
-                    @click="deleteFacture(facture.num_commande)"
+                    @click="
+                                            deleteFacture(facture.num_commande)
+                                        "
                   >
                     <i class="material-icons">&#xE872;</i>
                   </a>
@@ -96,7 +116,6 @@
     </div>
   </div>
 </template>
-
 
 <script>
 export default {
@@ -112,18 +131,18 @@ export default {
         navire: "",
         statut: "",
         date: "",
-        nature: ""
+        nature: "",
       },
       entreprises: [],
       conditions: [
         "Chèque à 10 jrs",
         "Effet à 60 jrs",
-        "Réglé sur base proforma"
+        "Réglé sur base proforma",
       ],
       naviresActif: [],
       natures: ["Marge de transformation", "Fraix d'extension", "Transport"],
       pagination: {},
-      edit: false //same form to add and edit => if edit : we're going to update so edit = true
+      edit: false, //same form to add and edit => if edit : we're going to update so edit = true
     };
   },
   created() {
@@ -137,26 +156,26 @@ export default {
       let vm = this;
       page_url = page_url || "/api/factures";
       fetch(page_url)
-        .then(res => res.json()) //formate the data to json format
-        .then(res => {
+        .then((res) => res.json()) //formate the data to json format
+        .then((res) => {
           //res is an object
           this.factures = res.data;
           vm.makePagination(res.meta, res.links); //for pagination purposes
         })
-        .catch(err => console.log("error fetching factures"));
+        .catch((err) => console.log("error fetching factures"));
     },
     fetchEntreprises() {
       fetch("/api/clients")
-        .then(res => res.json()) //formate the data to json format
-        .then(res => {
+        .then((res) => res.json()) //formate the data to json format
+        .then((res) => {
           this.index = res.meta.last_page;
           this.entreprises = res.data;
 
           if (this.index != 1) {
             for (let i = 2; i <= this.index; i++) {
               fetch("/api/clients?page=" + i)
-                .then(res => res.json()) //formate the data to json format
-                .then(res => {
+                .then((res) => res.json()) //formate the data to json format
+                .then((res) => {
                   //res is an object
                   this.entreprises = this.entreprises.concat(res.data);
                 });
@@ -166,29 +185,29 @@ export default {
     },
     fetchNavires() {
       fetch("/api/navires")
-        .then(res => res.json())
-        .then(res => {
+        .then((res) => res.json())
+        .then((res) => {
           this.index = res.meta.last_page;
           this.naviresActif = res.data;
 
           if (this.index != 1) {
             for (let i = 2; i <= this.index; i++) {
               fetch("/api/navires?page=" + i)
-                .then(res => res.json())
-                .then(res => {
+                .then((res) => res.json())
+                .then((res) => {
                   this.naviresActif = this.naviresActif.concat(res.data);
                 });
             }
           }
         })
-        .catch(err => console.log(err));
+        .catch((err) => console.log(err));
     },
     makePagination(meta, links) {
       let pagination = {
         current_page: meta.current_page,
         last_page: meta.last_page,
         next_page_url: links.next,
-        prev_page_url: links.prev
+        prev_page_url: links.prev,
       };
       this.pagination = pagination;
     },
@@ -196,15 +215,15 @@ export default {
       //make delete request to our api
       if (confirm("Are you sure ? ")) {
         fetch("api/facture/" + num_commande, {
-          method: "delete"
+          method: "delete",
         })
-          .then(res => res.json()) //formate the data to json format
-          .then(data => {
+          .then((res) => res.json()) //formate the data to json format
+          .then((data) => {
             //data is an object
             alert("Facture deleted");
             this.fetchFactures();
           })
-          .catch(err => console.log(err));
+          .catch((err) => console.log(err));
       }
     },
     editFacture(facture) {
@@ -223,8 +242,7 @@ export default {
       this.facture.statut = facture.statut;
       this.facture.date = facture.date;
       this.facture.nature = facture.nature;
-    }
-  }
+    },
+  },
 };
 </script>
-
