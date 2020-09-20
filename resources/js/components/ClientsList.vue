@@ -100,6 +100,9 @@
                 <div class="modal-body">
                   <div>
                     <form @submit.prevent="addClient" method="post" class="mb-4">
+                      <button type="button" class="close" @click="myModel=false">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
                       <div class="form-group">
                         <input
                           type="text"
@@ -197,7 +200,7 @@ export default {
       pagination: {},
       edit: false, //same form to add and edit => if edit : we're going to update so edit = true
 
-      myModel: true,
+      myModel: false,
     };
   },
   created() {
@@ -205,6 +208,32 @@ export default {
     this.fetchClients();
   },
   methods: {
+    addClient() {
+      //Update
+      fetch("api/client", {
+        method: "PUT",
+        body: JSON.stringify(this.client),
+        headers: {
+          "content-type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          //we wanna clear the form : empty it bcz it's binded with the inputs
+          this.client.nom_entreprise = "";
+          this.client.adresse = "";
+          this.client.ville = "";
+          this.client.num_compte_bancaire = "";
+          this.client.RC = "";
+          this.client.ICE = "";
+          this.client.category = "";
+
+          alert("Client updated");
+          this.fetchClients();
+          this.myModel = false;
+        })
+        .catch((err) => console.log(err));
+    },
     openModel() {
       this.myModel = true;
     },

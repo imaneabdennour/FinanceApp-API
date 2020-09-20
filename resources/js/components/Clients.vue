@@ -102,30 +102,6 @@ export default {
             this.fetchClients();
           })
           .catch((err) => console.log(err));
-      } else {
-        //Update
-        fetch("api/client", {
-          method: "PUT",
-          body: JSON.stringify(this.client),
-          headers: {
-            "content-type": "application/json",
-          },
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            //we wanna clear the form : empty it bcz it's binded with the inputs
-            this.client.nom_entreprise = "";
-            this.client.adresse = "";
-            this.client.ville = "";
-            this.client.num_compte_bancaire = "";
-            this.client.RC = "";
-            this.client.ICE = "";
-            this.client.category = "";
-
-            alert("Client updated");
-            this.fetchClients();
-          })
-          .catch((err) => console.log(err));
       }
     },
     onlyNumber($event) {
