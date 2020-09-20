@@ -64,7 +64,13 @@
                   <a class="add" title="Add" data-toggle="tooltip">
                     <i class="material-icons">&#xE03B;</i>
                   </a>
-                  <a class="edit" title="Edit" data-toggle="tooltip">
+                  <a
+                    class="edit"
+                    title="Edit"
+                    data-toggle="tooltip"
+                    @click="editGerant(gerant); openModel(); "
+                    value="Add"
+                  >
                     <i class="material-icons">&#xE254;</i>
                     <!--<button @click="editGerant(gerant)" class="btn btn-warning">Edit</button>
                     -->
@@ -83,6 +89,79 @@
           </table>
         </div>
       </div>
+    </div>
+
+    <div v-if="myModel">
+      <transition name="model">
+        <div class="modal-mask">
+          <div class="modal-wrapper">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-body">
+                  <div>
+                    <form @submit.prevent="addGerant" method="post" class="mb-3">
+                      <button type="button" class="close" @click="myModel=false">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                      <div class="form-group">
+                        <label for="civilité" style="margin-right:100px;">Civilité :</label>
+                        <input type="radio" name="civilité" value="Mdm" v-model="gerant.civilité" />
+                        <span style="margin-right:20px;">Mdm</span>
+
+                        <input type="radio" name="civilité" value="Mr" v-model="gerant.civilité" />
+                        <span>Mr</span>
+                      </div>
+
+                      <div class="form-group">
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="Nom complet"
+                          v-model="gerant.nom_complet"
+                        />
+                      </div>
+
+                      <div class="form-group">
+                        <input
+                          type="email"
+                          class="form-control"
+                          placeholder="Email"
+                          v-model="gerant.email"
+                        />
+                      </div>
+
+                      <div class="form-group">
+                        <vue-tel-input
+                          validCharactersOnly="true"
+                          placeholder="Entrer un num de telef"
+                          class="form-control"
+                          @input="onInput"
+                        ></vue-tel-input>
+                      </div>
+
+                      <div class="form-group">
+                        <select name="category" v-model="gerant.entreprise" class="form-control">
+                          <option disabled value>Entreprise</option>
+                          <option
+                            v-for="entr in entreprises"
+                            v-bind:key="entr.nom_entreprise"
+                          >{{ entr.nom_entreprise }}</option>
+                        </select>
+                      </div>
+
+                      <button
+                        type="submit"
+                        class="btn btn-primary btn-block"
+                        style=" width: 20%; margin: auto;"
+                      >Save</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </transition>
     </div>
   </div>
   <!--finish-->
@@ -106,14 +185,63 @@ export default {
       paginationClient: {},
       edit: false, //same form to add and edit => if edit : we're going to update so edit = true
       index: 0,
+
+      myModel: false,
     };
   },
   created() {
     //fetch gerants :
     this.fetchGerants();
+    this.fetchEntreprises();
   },
-  mounted() {},
   methods: {
+    fetchEntreprises() {
+      fetch("/api/clients")
+        .then((res) => res.json()) //formate the data to json format
+        .then((res) => {
+          this.index = res.meta.last_page;
+          this.entreprises = res.data;
+
+          if (this.index != 1) {
+            for (let i = 2; i <= this.index; i++) {
+              fetch("/api/clients?page=" + i)
+                .then((res) => res.json()) //formate the data to json format
+                .then((res) => {
+                  //res is an object
+                  this.entreprises = this.entreprises.concat(res.data);
+                });
+            }
+          }
+        });
+    },
+    addGerant() {
+      //Update
+      fetch("api/gerant", {
+        method: "PUT",
+        body: JSON.stringify(this.gerant),
+        headers: {
+          "content-type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          //we wanna clear the form : empty it bcz it's binded with the inputs
+          this.gerant.id = "";
+          this.gerant.civilité = "";
+          this.gerant.nom_complet = "";
+          this.gerant.email = "";
+          this.gerant.telef = "";
+          this.gerant.entreprise = "";
+
+          alert("Gerant updated");
+          this.fetchGerants();
+          this.myModel = false;
+        })
+        .catch((err) => console.log(err));
+    },
+    openModel() {
+      this.myModel = true;
+    },
     fetchGerants(page_url) {
       //depends on pagination
       let vm = this;

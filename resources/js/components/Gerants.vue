@@ -139,29 +139,6 @@ export default {
             this.fetchGerants();
           })
           .catch((err) => console.log(err));
-      } else {
-        //Update
-        fetch("api/gerant", {
-          method: "PUT",
-          body: JSON.stringify(this.gerant),
-          headers: {
-            "content-type": "application/json",
-          },
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            //we wanna clear the form : empty it bcz it's binded with the inputs
-            this.gerant.id = "";
-            this.gerant.civilité = "";
-            this.gerant.nom_complet = "";
-            this.gerant.email = "";
-            this.gerant.telef = "";
-            this.gerant.entreprise = "";
-
-            alert("Gerant updated");
-            this.fetchGerants();
-          })
-          .catch((err) => console.log(err));
       }
     },
     editGerant(gerant) {
