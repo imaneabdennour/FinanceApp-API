@@ -50,6 +50,7 @@ class FactureController extends Controller
             $facture->num_facture = $request->input('num_facture');
             $facture->client = $request->input('client');
             $facture->proforma = $request->input('proforma');
+            $facture->type = $request->input('type');
             $facture->condition = $request->input('condition');
             $facture->navire = $request->input('navire');
             $facture->statut = $request->input('statut');

@@ -47,7 +47,7 @@
                 <th>Nom entreprise</th>
                 <th>Adresse</th>
                 <th>Ville</th>
-                <th>Num compte bancaire</th>
+                <th style="width: 170px;">Num compte bancaire</th>
                 <th>RC</th>
                 <th>ICE</th>
                 <th>Catégorie</th>
@@ -67,7 +67,12 @@
                   <a class="add" title="Add" data-toggle="tooltip">
                     <i class="material-icons">&#xE03B;</i>
                   </a>
-                  <a class="edit" title="Edit" data-toggle="tooltip">
+                  <a
+                    class="edit"
+                    title="Edit"
+                    data-toggle="tooltip"
+                    @click="editClient(client); openModel(); "
+                  >
                     <i class="material-icons">&#xE254;</i>
                   </a>
                   <a
@@ -85,6 +90,91 @@
         </div>
       </div>
     </div>
+
+    <div v-if="myModel">
+      <transition name="model">
+        <div class="modal-mask">
+          <div class="modal-wrapper">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-body">
+                  <div>
+                    <form @submit.prevent="addClient" method="post" class="mb-4">
+                      <div class="form-group">
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="Nom de l'entreprise"
+                          v-model="client.nom_entreprise"
+                        />
+                      </div>
+                      <div class="form-group">
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="Adresse"
+                          v-model="client.adresse"
+                        />
+                      </div>
+                      <div class="form-group">
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="Ville"
+                          v-model="client.ville"
+                        />
+                      </div>
+                      <div class="form-group">
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="Num de compte bancaire"
+                          v-model="client.num_compte_bancaire"
+                          maxlength="16"
+                          minlength="16"
+                        />
+                      </div>
+                      <div class="form-group">
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="RC"
+                          v-model="client.RC"
+                        />
+                      </div>
+                      <div class="form-group">
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="ICE"
+                          v-model="client.ICE"
+                        />
+                      </div>
+                      <div class="form-group">
+                        <select name="category" v-model="client.category" class="form-control">
+                          <option disabled value>Category</option>
+                          <option v-for="cat in categories" v-bind:key="cat">
+                            {{
+                            cat
+                            }}
+                          </option>
+                        </select>
+                      </div>
+
+                      <button
+                        type="submit"
+                        class="btn btn-primary btn-block"
+                        style=" width: 20%; margin: auto;"
+                      >Save</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </transition>
+    </div>
   </div>
 </template>
 
@@ -101,10 +191,13 @@ export default {
         num_compte_bancaire: "",
         RC: "",
         ICE: "",
-        category: ""
+        category: "",
       },
+      categories: ["Fournisseur", "Client"],
       pagination: {},
-      edit: false //same form to add and edit => if edit : we're going to update so edit = true
+      edit: false, //same form to add and edit => if edit : we're going to update so edit = true
+
+      myModel: true,
     };
   },
   created() {
@@ -112,25 +205,28 @@ export default {
     this.fetchClients();
   },
   methods: {
+    openModel() {
+      this.myModel = true;
+    },
     fetchClients(page_url) {
       //depends on pagination
       let vm = this;
       page_url = page_url || "/api/clients";
       fetch(page_url)
-        .then(res => res.json()) //formate the data to json format
-        .then(res => {
+        .then((res) => res.json()) //formate the data to json format
+        .then((res) => {
           //res is an object
           this.clients = res.data;
           vm.makePagination(res.meta, res.links); //for pagination purposes
         })
-        .catch(err => console.log("error fetching clients"));
+        .catch((err) => console.log("error fetching clients"));
     },
     makePagination(meta, links) {
       let pagination = {
         current_page: meta.current_page,
         last_page: meta.last_page,
         next_page_url: links.next,
-        prev_page_url: links.prev
+        prev_page_url: links.prev,
       };
       this.pagination = pagination;
       /*
@@ -156,15 +252,15 @@ export default {
       //make delete request to our api
       if (confirm("Are you sure ? ")) {
         fetch("api/client/" + nom_entreprise, {
-          method: "delete"
+          method: "delete",
         })
-          .then(res => res.json()) //formate the data to json format
-          .then(data => {
+          .then((res) => res.json()) //formate the data to json format
+          .then((data) => {
             //data is an object
             alert("Client deleted");
             this.fetchClients();
           })
-          .catch(err => console.log(err));
+          .catch((err) => console.log(err));
       }
     },
     editClient(client) {
@@ -180,8 +276,8 @@ export default {
       this.client.RC = client.RC;
       this.client.ICE = client.ICE;
       this.client.category = client.category;
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -1,15 +1,13 @@
 import "./bootstrap";
 import Vue from "vue";
 import VueRouter from "vue-router";
-import BootstrapVue from 'bootstrap-vue';
+import BootstrapVue from "bootstrap-vue";
 
 Vue.use(BootstrapVue);
 Vue.use(VueRouter);
 
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap-vue/dist/bootstrap-vue.css';
-
-import form from "@/js//components/form.vue";
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap-vue/dist/bootstrap-vue.css";
 
 import Style from "@/js//components/Style.vue";
 import Navbar from "@/js//components/Navbar.vue";
@@ -22,9 +20,9 @@ import GerantsList from "@/js//components/GerantsList.vue";
 import Navires from "@/js//components/Navires.vue";
 import NaviresList from "@/js//components/NaviresList.vue";
 
-import VueTelInput from 'vue-tel-input'
+import VueTelInput from "vue-tel-input";
 
-Vue.use(VueTelInput)
+Vue.use(VueTelInput);
 
 const router = new VueRouter({
     mode: "history",
@@ -68,13 +66,7 @@ const router = new VueRouter({
             path: "/gerantsList",
             name: "gerantsList",
             component: GerantsList
-        },
-        {
-            path: "/form",
-            name: "form",
-            component: form
         }
-
     ]
 });
 
@@ -89,8 +81,7 @@ const app = new Vue({
         GerantsList,
         Navires,
         ClientsList,
-        Style,
-        form
+        Style
     },
     router
 });

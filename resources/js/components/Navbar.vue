@@ -1,8 +1,10 @@
 <template>
   <div class="header">
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark logo">
       <!-- Brand -->
-      <a class="navbar-brand" href="#">Logo</a>
+      <a class="navbar-brand logo" href="#">
+        <img src="@/images//logo.png" alt="Yellowrock logo" height="80px;" width="200px;" />
+      </a>
 
       <!-- Links -->
       <ul class="navbar-nav">
@@ -13,6 +15,7 @@
             href="#"
             id="navbardrop"
             data-toggle="dropdown"
+            style="margin-left: 50px;"
           >Factures</a>
           <div class="dropdown-menu">
             <a class="dropdown-item" href="#">
@@ -98,5 +101,11 @@
 <style scoped>
 li {
   margin-right: 20px;
+}
+.logo {
+  padding: 0px;
+  background-color: white;
+  padding: 0px;
+  margin: 0px;
 }
 </style>
