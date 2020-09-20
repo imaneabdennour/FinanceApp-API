@@ -58,7 +58,13 @@
                   <a class="add" title="Add" data-toggle="tooltip">
                     <i class="material-icons">&#xE03B;</i>
                   </a>
-                  <a class="edit" title="Edit" data-toggle="tooltip">
+                  <a
+                    class="edit"
+                    title="Edit"
+                    data-toggle="tooltip"
+                    @click="editNavire(navire); openModel(); "
+                    value="Add"
+                  >
                     <i class="material-icons">&#xE254;</i>
                     <!--<button @click="editGerant(gerant)" class="btn btn-warning">Edit</button>
                     -->
@@ -78,6 +84,50 @@
         </div>
       </div>
     </div>
+
+    <div v-if="myModel">
+      <transition name="model">
+        <div class="modal-mask">
+          <div class="modal-wrapper">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-body">
+                  <div>
+                    <form @submit.prevent="addNavire" method="post" class="mb-3">
+                      <button type="button" class="close" @click="myModel=false">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                      <div class="form-group">
+                        <label>Nom du navire</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="Nom du navire"
+                          v-model="navire.nom_navire"
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label>Statut</label>
+                        <select name="category" v-model="navire.statut" class="form-control">
+                          <option disabled value>Statut</option>
+                          <option v-for="stat in status" v-bind:key="stat">{{stat}}</option>
+                        </select>
+                      </div>
+
+                      <button
+                        type="submit"
+                        class="btn btn-primary btn-block"
+                        style=" width: 20%; margin: auto;"
+                      >Save</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </transition>
+    </div>
   </div>
   <!--finish-->
 </template>
@@ -93,6 +143,9 @@ export default {
       },
       pagination: {},
       edit: false, //same form to add and edit => if edit : we're going to update so edit = true
+
+      myModel: false,
+      status: ["En cours", "Archivé"],
     };
   },
   created() {
@@ -100,6 +153,29 @@ export default {
     this.fetchNavires();
   },
   methods: {
+    addNavire() {
+      //Update
+      fetch("api/navire", {
+        method: "PUT",
+        body: JSON.stringify(this.navire),
+        headers: {
+          "content-type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          //we wanna clear the form : empty it bcz it's binded with the inputs
+          (this.navire.nom_navire = ""),
+            (this.navire.statut = ""),
+            alert("Navire updated");
+          this.fetchNavires();
+          this.myModel = false;
+        })
+        .catch((err) => console.log(err));
+    },
+    openModel() {
+      this.myModel = true;
+    },
     fetchNavires(page_url) {
       //depends on pagination
       let vm = this;
