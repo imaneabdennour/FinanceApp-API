@@ -169,7 +169,6 @@ export default {
             (this.navire.statut = ""),
             alert("Navire updated");
           this.fetchNavires();
-          this.myModel = false;
         })
         .catch((err) => console.log(err));
     },

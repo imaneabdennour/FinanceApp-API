@@ -3,7 +3,7 @@
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark logo">
       <!-- Brand -->
       <a class="navbar-brand logo" href="#">
-        <img src="@/images//logo.png" alt="Yellowrock logo" height="80px;" width="200px;" />
+        <img :src="'/images/logo.png'" alt="Yellowrock logo" height="80px;" width="200px;" />
       </a>
 
       <!-- Links -->
