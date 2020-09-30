@@ -6,12 +6,16 @@
           <div class="table-title">
             <nav aria-label="Page navigation example">
               <ul class="pagination">
-                <li class="page-item" v-bind:class="[{ disabled: !pagination.prev_page_url }]">
+                <li
+                  class="page-item"
+                  v-bind:class="[{ disabled: !pagination.prev_page_url }]"
+                >
                   <a
                     class="page-link"
                     href="#"
                     @click="fetchClients(pagination.prev_page_url)"
-                  >Previous</a>
+                    >Previous</a
+                  >
                 </li>
 
                 <li class="page-item disabled">
@@ -21,8 +25,16 @@
                   </a>
                 </li>
 
-                <li class="page-item" v-bind:class="[{ disabled: !pagination.next_page_url }]">
-                  <a class="page-link" href="#" @click="fetchClients(pagination.next_page_url)">Next</a>
+                <li
+                  class="page-item"
+                  v-bind:class="[{ disabled: !pagination.next_page_url }]"
+                >
+                  <a
+                    class="page-link"
+                    href="#"
+                    @click="fetchClients(pagination.next_page_url)"
+                    >Next</a
+                  >
                 </li>
               </ul>
             </nav>
@@ -36,7 +48,9 @@
               <div class="col-sm-4">
                 <button type="button" class="btn btn-info add-new">
                   <i class="fa fa-plus"></i>
-                  <router-link :to="{ name: 'clients' }">Add New</router-link>
+                  <router-link :to="{ name: 'clients' }" style="color: white"
+                    >Add New</router-link
+                  >
                 </button>
               </div>
             </div>
@@ -47,7 +61,7 @@
                 <th>Nom entreprise</th>
                 <th>Adresse</th>
                 <th>Ville</th>
-                <th style="width: 170px;">Num compte bancaire</th>
+                <th style="width: 170px">Num compte bancaire</th>
                 <th>RC</th>
                 <th>ICE</th>
                 <th>Catégorie</th>
@@ -56,13 +70,13 @@
             </thead>
             <tbody>
               <tr v-for="client in clients" :key="client.nom_entreprise">
-                <td>{{client.nom_entreprise}}</td>
-                <td>{{client.adresse}}</td>
-                <td>{{client.ville}}</td>
-                <td>{{client.num_compte_bancaire}}</td>
-                <td>{{client.RC}}</td>
-                <td>{{client.ICE}}</td>
-                <td>{{client.category}}</td>
+                <td>{{ client.nom_entreprise }}</td>
+                <td>{{ client.adresse }}</td>
+                <td>{{ client.ville }}</td>
+                <td>{{ client.num_compte_bancaire }}</td>
+                <td>{{ client.RC }}</td>
+                <td>{{ client.ICE }}</td>
+                <td>{{ client.category }}</td>
                 <td>
                   <a class="add" title="Add" data-toggle="tooltip">
                     <i class="material-icons">&#xE03B;</i>
@@ -71,7 +85,10 @@
                     class="edit"
                     title="Edit"
                     data-toggle="tooltip"
-                    @click="editClient(client); openModel(); "
+                    @click="
+                      editClient(client);
+                      openModel();
+                    "
                   >
                     <i class="material-icons">&#xE254;</i>
                   </a>
@@ -99,8 +116,16 @@
               <div class="modal-content">
                 <div class="modal-body">
                   <div>
-                    <form @submit.prevent="addClient" method="post" class="mb-4">
-                      <button type="button" class="close" @click="myModel=false">
+                    <form
+                      @submit.prevent="addClient"
+                      method="post"
+                      class="mb-4"
+                    >
+                      <button
+                        type="button"
+                        class="close"
+                        @click="myModel = false"
+                      >
                         <span aria-hidden="true">&times;</span>
                       </button>
                       <div class="form-group">
@@ -154,12 +179,14 @@
                         />
                       </div>
                       <div class="form-group">
-                        <select name="category" v-model="client.category" class="form-control">
+                        <select
+                          name="category"
+                          v-model="client.category"
+                          class="form-control"
+                        >
                           <option disabled value>Category</option>
                           <option v-for="cat in categories" v-bind:key="cat">
-                            {{
-                            cat
-                            }}
+                            {{ cat }}
                           </option>
                         </select>
                       </div>
@@ -167,8 +194,10 @@
                       <button
                         type="submit"
                         class="btn btn-primary btn-block"
-                        style=" width: 20%; margin: auto;"
-                      >Save</button>
+                        style="width: 20%; margin: auto"
+                      >
+                        Save
+                      </button>
                     </form>
                   </div>
                 </div>

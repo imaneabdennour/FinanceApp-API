@@ -7,12 +7,16 @@
           <div class="table-title">
             <nav aria-label="Page navigation example">
               <ul class="pagination">
-                <li class="page-item" v-bind:class="[{ disabled: !pagination.prev_page_url }]">
+                <li
+                  class="page-item"
+                  v-bind:class="[{ disabled: !pagination.prev_page_url }]"
+                >
                   <a
                     class="page-link"
                     href="#"
                     @click="fetchGerants(pagination.prev_page_url)"
-                  >Previous</a>
+                    >Previous</a
+                  >
                 </li>
 
                 <li class="page-item disabled">
@@ -22,8 +26,16 @@
                   </a>
                 </li>
 
-                <li class="page-item" v-bind:class="[{ disabled: !pagination.next_page_url }]">
-                  <a class="page-link" href="#" @click="fetchGerants(pagination.next_page_url)">Next</a>
+                <li
+                  class="page-item"
+                  v-bind:class="[{ disabled: !pagination.next_page_url }]"
+                >
+                  <a
+                    class="page-link"
+                    href="#"
+                    @click="fetchGerants(pagination.next_page_url)"
+                    >Next</a
+                  >
                 </li>
               </ul>
             </nav>
@@ -37,7 +49,9 @@
               <div class="col-sm-4">
                 <button type="button" class="btn btn-info add-new">
                   <i class="fa fa-plus"></i>
-                  <router-link :to="{ name: 'gerants' }">Add New</router-link>
+                  <router-link :to="{ name: 'gerants' }" style="color: white"
+                    >Add New</router-link
+                  >
                 </button>
               </div>
             </div>
@@ -46,8 +60,8 @@
             <thead>
               <tr>
                 <th>Civilité</th>
-                <th>Nom complet</th>
-                <th>Email</th>
+                <th style="width: 130px">Nom complet</th>
+                <th style="width: 260px">Email</th>
                 <th>Num telef</th>
                 <th>Entreprise</th>
                 <th>Actions</th>
@@ -55,11 +69,11 @@
             </thead>
             <tbody>
               <tr v-for="gerant in gerants" :key="gerant.id">
-                <td>{{gerant.civilité}}</td>
-                <td>{{gerant.nom_complet}}</td>
-                <td>{{gerant.email}}</td>
-                <td>{{gerant.telef}}</td>
-                <td>{{gerant.entreprise}}</td>
+                <td>{{ gerant.civilité }}</td>
+                <td>{{ gerant.nom_complet }}</td>
+                <td>{{ gerant.email }}</td>
+                <td>{{ gerant.telef }}</td>
+                <td>{{ gerant.entreprise }}</td>
                 <td>
                   <a class="add" title="Add" data-toggle="tooltip">
                     <i class="material-icons">&#xE03B;</i>
@@ -68,7 +82,10 @@
                     class="edit"
                     title="Edit"
                     data-toggle="tooltip"
-                    @click="editGerant(gerant); openModel(); "
+                    @click="
+                      editGerant(gerant);
+                      openModel();
+                    "
                     value="Add"
                   >
                     <i class="material-icons">&#xE254;</i>
@@ -99,16 +116,36 @@
               <div class="modal-content">
                 <div class="modal-body">
                   <div>
-                    <form @submit.prevent="addGerant" method="post" class="mb-3">
-                      <button type="button" class="close" @click="myModel=false">
+                    <form
+                      @submit.prevent="addGerant"
+                      method="post"
+                      class="mb-3"
+                    >
+                      <button
+                        type="button"
+                        class="close"
+                        @click="myModel = false"
+                      >
                         <span aria-hidden="true">&times;</span>
                       </button>
                       <div class="form-group">
-                        <label for="civilité" style="margin-right:100px;">Civilité :</label>
-                        <input type="radio" name="civilité" value="Mdm" v-model="gerant.civilité" />
-                        <span style="margin-right:20px;">Mdm</span>
+                        <label for="civilité" style="margin-right: 100px"
+                          >Civilité :</label
+                        >
+                        <input
+                          type="radio"
+                          name="civilité"
+                          value="Mdm"
+                          v-model="gerant.civilité"
+                        />
+                        <span style="margin-right: 20px">Mdm</span>
 
-                        <input type="radio" name="civilité" value="Mr" v-model="gerant.civilité" />
+                        <input
+                          type="radio"
+                          name="civilité"
+                          value="Mr"
+                          v-model="gerant.civilité"
+                        />
                         <span>Mr</span>
                       </div>
 
@@ -140,20 +177,28 @@
                       </div>
 
                       <div class="form-group">
-                        <select name="category" v-model="gerant.entreprise" class="form-control">
+                        <select
+                          name="category"
+                          v-model="gerant.entreprise"
+                          class="form-control"
+                        >
                           <option disabled value>Entreprise</option>
                           <option
                             v-for="entr in entreprises"
                             v-bind:key="entr.nom_entreprise"
-                          >{{ entr.nom_entreprise }}</option>
+                          >
+                            {{ entr.nom_entreprise }}
+                          </option>
                         </select>
                       </div>
 
                       <button
                         type="submit"
                         class="btn btn-primary btn-block"
-                        style=" width: 20%; margin: auto;"
-                      >Save</button>
+                        style="width: 20%; margin: auto"
+                      >
+                        Save
+                      </button>
                     </form>
                   </div>
                 </div>

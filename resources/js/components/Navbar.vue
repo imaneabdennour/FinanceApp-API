@@ -3,7 +3,12 @@
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark logo">
       <!-- Brand -->
       <a class="navbar-brand logo" href="#">
-        <img :src="'/images/logo.png'" alt="Yellowrock logo" height="80px;" width="200px;" />
+        <img
+          :src="'/images/logo.png'"
+          alt="Yellowrock logo"
+          height="80px;"
+          width="200px;"
+        />
       </a>
 
       <!-- Links -->
@@ -15,17 +20,18 @@
             href="#"
             id="navbardrop"
             data-toggle="dropdown"
-            style="margin-left: 50px;"
-          >Factures</a>
+            style="margin-left: 50px"
+            >Factures</a
+          >
           <div class="dropdown-menu">
             <a class="dropdown-item" href="#">
               <router-link :to="{ name: 'factures' }">
-                <a class="dropdown-item" href="#">Factures</a>
+                <a class="dropdown-item" href="#">Ajouter une facture</a>
               </router-link>
             </a>
             <a class="dropdown-item" href="#">
               <router-link :to="{ name: 'facturesList' }">
-                <a class="dropdown-item" href="#">Facture list</a>
+                <a class="dropdown-item" href="#">Liste de factures</a>
               </router-link>
             </a>
           </div>
@@ -37,16 +43,17 @@
             href="#"
             id="navbardrop"
             data-toggle="dropdown"
-          >Clients</a>
+            >Clients</a
+          >
           <div class="dropdown-menu">
             <a class="dropdown-item" href="#">
               <router-link :to="{ name: 'clients' }">
-                <a class="dropdown-item" href="#">Clients</a>
+                <a class="dropdown-item" href="#">Ajouter un client</a>
               </router-link>
             </a>
             <a class="dropdown-item" href="#">
               <router-link :to="{ name: 'clientsList' }">
-                <a class="dropdown-item" href="#">Client list</a>
+                <a class="dropdown-item" href="#">Liste de clients</a>
               </router-link>
             </a>
           </div>
@@ -58,16 +65,17 @@
             href="#"
             id="navbardrop"
             data-toggle="dropdown"
-          >Navires</a>
+            >Navires</a
+          >
           <div class="dropdown-menu">
             <a class="dropdown-item" href="#">
               <router-link :to="{ name: 'navires' }">
-                <a class="dropdown-item" href="#">Navires</a>
+                <a class="dropdown-item" href="#">Ajouter un navire</a>
               </router-link>
             </a>
             <a class="dropdown-item" href="#">
               <router-link :to="{ name: 'naviresList' }">
-                <a class="dropdown-item" href="#">Navire list</a>
+                <a class="dropdown-item" href="#">Liste de navires</a>
               </router-link>
             </a>
           </div>
@@ -79,16 +87,17 @@
             href="#"
             id="navbardrop"
             data-toggle="dropdown"
-          >Gerants</a>
+            >Gerants</a
+          >
           <div class="dropdown-menu">
             <a class="dropdown-item" href="#">
               <router-link :to="{ name: 'gerants' }">
-                <a class="dropdown-item" href="#">Gerants</a>
+                <a class="dropdown-item" href="#">Ajouter un gérant</a>
               </router-link>
             </a>
             <a class="dropdown-item" href="#">
               <router-link :to="{ name: 'gerantsList' }">
-                <a class="dropdown-item" href="#">Gerant list</a>
+                <a class="dropdown-item" href="#">Liste de gérants</a>
               </router-link>
             </a>
           </div>

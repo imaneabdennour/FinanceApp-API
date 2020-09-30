@@ -1,17 +1,27 @@
 <template>
-  <div style="width:50%; margin:auto; background-color:white;padding:20px; margin-top:15px;">
+  <div
+    style="
+      width: 50%;
+      margin: auto;
+      background-color: white;
+      padding: 20px;
+      margin-top: 15px;
+    "
+  >
     <h2 class="center">Gestion de Facture</h2>
     <br />
     <form @submit.prevent="addFacture" method="post" class="mb-3">
       <div class="form-group">
         <select name="category" v-model="facture.client" class="form-control">
           <option value>-- Entreprise --</option>
-          <option v-for="entr in entreprises" v-bind:key="entr.entreprise">{{ entr.nom_entreprise }}</option>
+          <option v-for="entr in entreprises" v-bind:key="entr.entreprise">
+            {{ entr.nom_entreprise }}
+          </option>
         </select>
       </div>
 
       <div class="form-group">
-        <label for="proforma" style="margin-right:100px;">Proforma</label>
+        <label for="proforma" style="margin-right: 100px">Proforma</label>
         <input
           type="radio"
           name="proforma"
@@ -19,7 +29,7 @@
           v-model="facture.proforma"
           @change="CalculNumFacture1"
         />
-        <span style="margin-right:20px;">Oui</span>
+        <span style="margin-right: 20px">Oui</span>
 
         <input
           type="radio"
@@ -32,12 +42,15 @@
       </div>
 
       <div class="form-group" v-if="facture.proforma == 'Non'">
-        <select name="type" v-model="facture.type" class="form-control" @change="CalculNumFacture2">
-          <option disabled value>-- Type --</option>
+        <select
+          name="type"
+          v-model="facture.type"
+          class="form-control"
+          @change="CalculNumFacture2"
+        >
+          <option value>-- Type --</option>
           <option v-for="type in types" v-bind:key="type">
-            {{
-            type
-            }}
+            {{ type }}
           </option>
         </select>
       </div>
@@ -64,12 +77,14 @@
       </div>
 
       <div class="form-group">
-        <select name="condition" v-model="facture.condition" class="form-control">
+        <select
+          name="condition"
+          v-model="facture.condition"
+          class="form-control"
+        >
           <option disabled value>-- Condition --</option>
           <option v-for="cond in conditions" v-bind:key="cond">
-            {{
-            cond
-            }}
+            {{ cond }}
           </option>
         </select>
       </div>
@@ -77,35 +92,52 @@
       <div class="form-group">
         <select name="navire" v-model="facture.navire" class="form-control">
           <option disabled value>-- Navire --</option>
-          <option v-for="entr in actifNavires" v-bind:key="entr.nom_navire">{{ entr.nom_navire }}</option>
+          <option v-for="entr in actifNavires" v-bind:key="entr.nom_navire">
+            {{ entr.nom_navire }}
+          </option>
         </select>
       </div>
       <div class="form-group">
-        <label style="margin-right:100px;">Statut</label>
-        <input type="radio" name="statu" value="Payé" v-model="facture.statut" />
-        <span style="margin-right:20px;">Payé</span>
+        <label style="margin-right: 100px">Statut</label>
+        <input
+          type="radio"
+          name="statu"
+          value="Payé"
+          v-model="facture.statut"
+        />
+        <span style="margin-right: 20px">Payé</span>
 
-        <input type="radio" name="statu" value="Non payé" v-model="facture.statut" />
+        <input
+          type="radio"
+          name="statu"
+          value="Non payé"
+          v-model="facture.statut"
+        />
         <span>Non payé</span>
       </div>
       <div class="form-group">
-        <input type="date" value="dateFormate" class="form-control" v-model="facture.date" />
+        <input
+          type="date"
+          value="dateFormate"
+          class="form-control"
+          v-model="facture.date"
+        />
       </div>
       <div class="form-group">
         <select name="navire" v-model="facture.nature" class="form-control">
-          <option disabled value>-- Nature --</option>
+          <option value>-- Nature --</option>
           <option v-for="nat in natures" v-bind:key="nat">
-            {{
-            nat
-            }}
+            {{ nat }}
           </option>
         </select>
       </div>
       <button
         type="submit"
         class="btn btn-primary btn-block"
-        style=" width: 20%; margin: auto;"
-      >Save</button>
+        style="width: 20%; margin: auto"
+      >
+        Save
+      </button>
     </form>
   </div>
 </template>

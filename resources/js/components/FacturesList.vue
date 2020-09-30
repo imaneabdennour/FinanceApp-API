@@ -8,19 +8,14 @@
               <ul class="pagination">
                 <li
                   class="page-item"
-                  v-bind:class="[
-                                        { disabled: !pagination.prev_page_url }
-                                    ]"
+                  v-bind:class="[{ disabled: !pagination.prev_page_url }]"
                 >
                   <a
                     class="page-link"
                     href="#"
-                    @click="
-                                            fetchFactures(
-                                                pagination.prev_page_url
-                                            )
-                                        "
-                  >Previous</a>
+                    @click="fetchFactures(pagination.prev_page_url)"
+                    >Previous</a
+                  >
                 </li>
 
                 <li class="page-item disabled">
@@ -32,19 +27,14 @@
 
                 <li
                   class="page-item"
-                  v-bind:class="[
-                                        { disabled: !pagination.next_page_url }
-                                    ]"
+                  v-bind:class="[{ disabled: !pagination.next_page_url }]"
                 >
                   <a
                     class="page-link"
                     href="#"
-                    @click="
-                                            fetchFactures(
-                                                pagination.next_page_url
-                                            )
-                                        "
-                  >Next</a>
+                    @click="fetchFactures(pagination.next_page_url)"
+                    >Next</a
+                  >
                 </li>
               </ul>
             </nav>
@@ -58,7 +48,9 @@
               <div class="col-sm-4">
                 <button type="button" class="btn btn-info add-new">
                   <i class="fa fa-plus"></i>
-                  <router-link :to="{ name: 'factures' }">Add New</router-link>
+                  <router-link :to="{ name: 'factures' }" style="color: white"
+                    >Add New</router-link
+                  >
                 </button>
               </div>
             </div>
@@ -67,23 +59,23 @@
             <thead>
               <tr>
                 <th>Client</th>
-                <th style="width: 90px;">Proforma</th>
+                <th style="width: 90px">Proforma</th>
                 <th>Type</th>
-                <th style="width:130px;">Num de facture</th>
-                <th style="width: 95px;">Num de commande</th>
-                <th style="width: 90px;">Condition</th>
+                <th style="width: 130px">Num de facture</th>
+                <th style="width: 95px">Num de commande</th>
+                <th style="width: 90px">Condition</th>
                 <th>Navire</th>
-                <th style="width: 70px;">Statut</th>
+                <th style="width: 70px">Statut</th>
                 <th>Date</th>
                 <th>Nature</th>
-                <th style="width: 100px;">Actions</th>
+                <th style="width: 100px">Actions</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="fac in factures" v-bind:key="fac.num_commande">
                 <td>{{ fac.client }}</td>
                 <td>{{ fac.proforma }}</td>
-                <td>{{fac.type}}</td>
+                <td>{{ fac.type }}</td>
                 <td>{{ fac.num_facture }}</td>
                 <td>{{ fac.num_commande }}</td>
                 <td>{{ fac.condition }}</td>
@@ -100,7 +92,10 @@
                     class="edit"
                     title="Edit"
                     data-toggle="tooltip"
-                    @click="editFacture(fac); openModel(); "
+                    @click="
+                      editFacture(fac);
+                      openModel();
+                    "
                     value="Add"
                   >
                     <i class="material-icons">&#xE254;</i>
@@ -109,9 +104,7 @@
                     class="delete"
                     title="Delete"
                     data-toggle="tooltip"
-                    @click="
-                                            deleteFacture(facture.num_commande)
-                                        "
+                    @click="deleteFacture(facture.num_commande)"
                   >
                     <i class="material-icons">&#xE872;</i>
                   </a>
@@ -131,22 +124,38 @@
               <div class="modal-content">
                 <div class="modal-body">
                   <div>
-                    <form @submit.prevent="addFacture" method="post" class="mb-3">
-                      <button type="button" class="close" @click="myModel=false">
+                    <form
+                      @submit.prevent="addFacture"
+                      method="post"
+                      class="mb-3"
+                    >
+                      <button
+                        type="button"
+                        class="close"
+                        @click="myModel = false"
+                      >
                         <span aria-hidden="true">&times;</span>
                       </button>
                       <div class="form-group">
-                        <select name="category" v-model="facture.client" class="form-control">
+                        <select
+                          name="category"
+                          v-model="facture.client"
+                          class="form-control"
+                        >
                           <option value>-- Entreprise --</option>
                           <option
                             v-for="entr in entreprises"
                             v-bind:key="entr.entreprise"
-                          >{{ entr.nom_entreprise }}</option>
+                          >
+                            {{ entr.nom_entreprise }}
+                          </option>
                         </select>
                       </div>
 
                       <div class="form-group">
-                        <label for="proforma" style="margin-right:100px;">Proforma</label>
+                        <label for="proforma" style="margin-right: 100px"
+                          >Proforma</label
+                        >
                         <input
                           type="radio"
                           name="proforma"
@@ -154,7 +163,7 @@
                           v-model="facture.proforma"
                           @change="CalculNumFacture1"
                         />
-                        <span style="margin-right:20px;">Oui</span>
+                        <span style="margin-right: 20px">Oui</span>
 
                         <input
                           type="radio"
@@ -175,9 +184,7 @@
                         >
                           <option disabled value>-- Type --</option>
                           <option v-for="type in types" v-bind:key="type">
-                            {{
-                            type
-                            }}
+                            {{ type }}
                           </option>
                         </select>
                       </div>
@@ -203,31 +210,49 @@
                       </div>
 
                       <div class="form-group">
-                        <select name="condition" v-model="facture.condition" class="form-control">
+                        <select
+                          name="condition"
+                          v-model="facture.condition"
+                          class="form-control"
+                        >
                           <option disabled value>-- Condition --</option>
                           <option v-for="cond in conditions" v-bind:key="cond">
-                            {{
-                            cond
-                            }}
+                            {{ cond }}
                           </option>
                         </select>
                       </div>
 
                       <div class="form-group">
-                        <select name="navire" v-model="facture.navire" class="form-control">
+                        <select
+                          name="navire"
+                          v-model="facture.navire"
+                          class="form-control"
+                        >
                           <option disabled value>-- Navire --</option>
                           <option
                             v-for="entr in actifNavires"
                             v-bind:key="entr.nom_navire"
-                          >{{ entr.nom_navire }}</option>
+                          >
+                            {{ entr.nom_navire }}
+                          </option>
                         </select>
                       </div>
                       <div class="form-group">
-                        <label style="margin-right:100px;">Statut</label>
-                        <input type="radio" name="statu" value="Payé" v-model="facture.statut" />
-                        <span style="margin-right:20px;">Payé</span>
+                        <label style="margin-right: 100px">Statut</label>
+                        <input
+                          type="radio"
+                          name="statu"
+                          value="Payé"
+                          v-model="facture.statut"
+                        />
+                        <span style="margin-right: 20px">Payé</span>
 
-                        <input type="radio" name="statu" value="Non payé" v-model="facture.statut" />
+                        <input
+                          type="radio"
+                          name="statu"
+                          value="Non payé"
+                          v-model="facture.statut"
+                        />
                         <span>Non payé</span>
                       </div>
                       <div class="form-group">
@@ -239,20 +264,24 @@
                         />
                       </div>
                       <div class="form-group">
-                        <select name="navire" v-model="facture.nature" class="form-control">
+                        <select
+                          name="navire"
+                          v-model="facture.nature"
+                          class="form-control"
+                        >
                           <option disabled value>-- Nature --</option>
                           <option v-for="nat in natures" v-bind:key="nat">
-                            {{
-                            nat
-                            }}
+                            {{ nat }}
                           </option>
                         </select>
                       </div>
                       <button
                         type="submit"
                         class="btn btn-primary btn-block"
-                        style=" width: 20%; margin: auto;"
-                      >Save</button>
+                        style="width: 20%; margin: auto"
+                      >
+                        Save
+                      </button>
                     </form>
                   </div>
                 </div>

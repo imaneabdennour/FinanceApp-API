@@ -7,23 +7,35 @@
           <div class="table-title">
             <nav aria-label="Page navigation example">
               <ul class="pagination">
-                <li class="page-item" v-bind:class="[{ disabled: !pagination.prev_page_url }]">
+                <li
+                  class="page-item"
+                  v-bind:class="[{ disabled: !pagination.prev_page_url }]"
+                >
                   <a
                     class="page-link"
                     href="#"
                     @click="fetchNavires(pagination.prev_page_url)"
-                  >Previous</a>
+                    >Previous</a
+                  >
                 </li>
 
                 <li class="page-item disabled">
-                  <a
-                    href="#"
-                    class="page-link text-dark"
-                  >Page {{pagination.current_page}} of {{pagination.last_page}}</a>
+                  <a href="#" class="page-link text-dark"
+                    >Page {{ pagination.current_page }} of
+                    {{ pagination.last_page }}</a
+                  >
                 </li>
 
-                <li class="page-item" v-bind:class="[{ disabled: !pagination.next_page_url }]">
-                  <a class="page-link" href="#" @click="fetchNavires(pagination.next_page_url)">Next</a>
+                <li
+                  class="page-item"
+                  v-bind:class="[{ disabled: !pagination.next_page_url }]"
+                >
+                  <a
+                    class="page-link"
+                    href="#"
+                    @click="fetchNavires(pagination.next_page_url)"
+                    >Next</a
+                  >
                 </li>
               </ul>
             </nav>
@@ -37,7 +49,9 @@
               <div class="col-sm-4">
                 <button type="button" class="btn btn-info add-new">
                   <i class="fa fa-plus"></i>
-                  <router-link :to="{ name: 'navires' }">Add New</router-link>
+                  <router-link :to="{ name: 'navires' }" style="color: white"
+                    >Add New</router-link
+                  >
                 </button>
               </div>
             </div>
@@ -52,8 +66,8 @@
             </thead>
             <tbody>
               <tr v-for="navire in navires" :key="navire.nom_navire">
-                <td>{{navire.nom_navire}}</td>
-                <td>{{navire.statut}}</td>
+                <td>{{ navire.nom_navire }}</td>
+                <td>{{ navire.statut }}</td>
                 <td>
                   <a class="add" title="Add" data-toggle="tooltip">
                     <i class="material-icons">&#xE03B;</i>
@@ -62,7 +76,10 @@
                     class="edit"
                     title="Edit"
                     data-toggle="tooltip"
-                    @click="editNavire(navire); openModel(); "
+                    @click="
+                      editNavire(navire);
+                      openModel();
+                    "
                     value="Add"
                   >
                     <i class="material-icons">&#xE254;</i>
@@ -93,8 +110,16 @@
               <div class="modal-content">
                 <div class="modal-body">
                   <div>
-                    <form @submit.prevent="addNavire" method="post" class="mb-3">
-                      <button type="button" class="close" @click="myModel=false">
+                    <form
+                      @submit.prevent="addNavire"
+                      method="post"
+                      class="mb-3"
+                    >
+                      <button
+                        type="button"
+                        class="close"
+                        @click="myModel = false"
+                      >
                         <span aria-hidden="true">&times;</span>
                       </button>
                       <div class="form-group">
@@ -108,17 +133,25 @@
                       </div>
                       <div class="form-group">
                         <label>Statut</label>
-                        <select name="category" v-model="navire.statut" class="form-control">
+                        <select
+                          name="category"
+                          v-model="navire.statut"
+                          class="form-control"
+                        >
                           <option disabled value>Statut</option>
-                          <option v-for="stat in status" v-bind:key="stat">{{stat}}</option>
+                          <option v-for="stat in status" v-bind:key="stat">
+                            {{ stat }}
+                          </option>
                         </select>
                       </div>
 
                       <button
                         type="submit"
                         class="btn btn-primary btn-block"
-                        style=" width: 20%; margin: auto;"
-                      >Save</button>
+                        style="width: 20%; margin: auto"
+                      >
+                        Save
+                      </button>
                     </form>
                   </div>
                 </div>
