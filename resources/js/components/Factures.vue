@@ -172,7 +172,7 @@ export default {
       edit: false, //same form to add and edit => if edit : we're going to update so edit = true
     };
   },
-  mounted() {
+  created() {
     this.fetchEntreprises();
 
     //fetch navires where statut = "En cours"

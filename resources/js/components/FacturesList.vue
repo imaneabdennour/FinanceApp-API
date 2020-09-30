@@ -544,7 +544,6 @@ export default {
     deleteFacture(num_commande) {
       //make delete request to our api
       if (confirm("Are you sure ? ")) {
-        console.log(num_commande);
         fetch("api/facture/" + num_commande, {
           method: "delete",
         })
