@@ -158,6 +158,7 @@
               @change="
                 pourcentageTVA();
                 calculTVA();
+                calcul_montant_TTC();
               "
             >
               <option value>-- Nature --</option>
@@ -198,6 +199,7 @@
               @change="
                 calcul_montant_HT();
                 calculTVA();
+                calcul_montant_TTC();
               "
               min="0.01"
               step="0.01"
@@ -215,6 +217,7 @@
               @change="
                 calcul_montant_HT();
                 calculTVA();
+                calcul_montant_TTC();
               "
               min="0.01"
               step="0.01"
@@ -229,8 +232,6 @@
               type="number"
               class="form-control"
               v-model="facture.montant_HT"
-              disabled
-              @change="calcul_montant_TTC"
             />
           </div>
         </div>
@@ -256,7 +257,6 @@
               value="dateFormate"
               class="form-control"
               v-model="facture.TVA"
-              disabled
               @change="calcul_montant_TTC"
             />
           </div>
@@ -270,7 +270,6 @@
               value="dateFormate"
               class="form-control"
               v-model="facture.montant_TTC"
-              disabled
             />
           </div>
         </div>
@@ -278,12 +277,17 @@
         <div class="form-group row">
           <label class="col-sm-4 col-form-label">Devise</label>
           <div class="col-sm-8">
-            <input
-              type="text"
-              value="dateFormate"
-              class="form-control"
+            <select
+              name="navire"
               v-model="facture.devise"
-            />
+              class="form-control"
+              @change="calcul_montant_TTC"
+            >
+              <option value disabled>-- Devises --</option>
+              <option v-for="dev in devises" v-bind:key="dev.nom">
+                {{ dev.nom }}
+              </option>
+            </select>
           </div>
         </div>
         <div class="form-group row">
@@ -428,6 +432,12 @@ export default {
         { nom: "Fraix d'extension", valeur_TVA: 0.2 },
         { nom: "Transport", valeur_TVA: 0.14 },
       ],
+      devises: [
+        { nom: "Dollar", sign: "$", centimes: "cents" },
+        { nom: "Euro", sign: "€", centimes: "cents" },
+        { nom: "Pound", sign: "£", centimes: "pence" },
+        { nom: "MAD", sign: "MAD", centimes: "centimes" },
+      ],
       pagination: {},
       edit: false, //same form to add and edit => if edit : we're going to update so edit = true
     };
@@ -445,10 +455,16 @@ export default {
     this.fetchFactures();
   },
   methods: {
+    montantChiffres() {
+      if (this.facture.devise) {
+        this.facture.montant_en_lettres = "RR";
+      }
+    },
     calcul_montant_TTC() {
-      console.log("hello");
       if (this.facture.montant_HT && this.facture.TVA) {
-        this.facture.montant_TTC = 55;
+        this.facture.montant_TTC = this.facture.montant_HT - this.facture.TVA;
+
+        this.montantChiffres(); //transformation en lettres
       }
     },
     calculTVA() {
