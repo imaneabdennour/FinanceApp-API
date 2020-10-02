@@ -56,6 +56,15 @@ class FactureController extends Controller
             $facture->statut = $request->input('statut');
             $facture->date = $request->input('date');
             $facture->nature = $request->input('nature');
+            $facture->produit = $request->input('produit');
+            $facture->quantite = $request->input('quantite');
+            $facture->prix_unit = $request->input('prix_unit');
+            $facture->montant_HT = $request->input('montant_HT');
+            $facture->taux_TVA = $request->input('taux_TVA');
+            $facture->TVA = $request->input('produit');
+            $facture->montant_TTC = $request->input('quantite');
+            $facture->devise = $request->input('prix_unit');
+            $facture->montant_en_lettres = $request->input('montant_HT');
 
             if($facture->save()){
                 return new FactureResource($facture);

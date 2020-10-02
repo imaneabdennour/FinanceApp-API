@@ -64,6 +64,7 @@
                 <th style="width: 170px">Num compte bancaire</th>
                 <th>RC</th>
                 <th>ICE</th>
+                <th>Représentant</th>
                 <th>Catégorie</th>
                 <th>Actions</th>
               </tr>
@@ -76,6 +77,7 @@
                 <td>{{ client.num_compte_bancaire }}</td>
                 <td>{{ client.RC }}</td>
                 <td>{{ client.ICE }}</td>
+                <td>{{ client.representant }}</td>
                 <td>{{ client.category }}</td>
                 <td>
                   <a class="add" title="Add" data-toggle="tooltip">
@@ -224,6 +226,7 @@ export default {
         RC: "",
         ICE: "",
         category: "",
+        representant: "",
       },
       categories: ["Fournisseur", "Client"],
       pagination: {},
@@ -256,6 +259,7 @@ export default {
           this.client.RC = "";
           this.client.ICE = "";
           this.client.category = "";
+          this.client.representant = "";
 
           alert("Client updated");
           this.fetchClients();
@@ -334,6 +338,7 @@ export default {
       this.client.RC = client.RC;
       this.client.ICE = client.ICE;
       this.client.category = client.category;
+      this.client.representant = client.representant;
     },
   },
 };

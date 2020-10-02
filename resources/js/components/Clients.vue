@@ -82,17 +82,21 @@
         </div>
       </div>
 
-       <div class="form-group row">
+      <div class="form-group row">
         <label class="col-sm-4 col-form-label">Représentant</label>
         <div class="col-sm-8">
           <select
             name="category"
-            v-model="client.représentant"
+            v-model="client.representant"
             class="form-control"
           >
-            <option disabled value>Catégorie</option>
-            <option v-for="cat in categories" v-bind:key="cat">
-              {{ cat }}
+            <option disabled value>-- Choisissez le représentant --</option>
+            <option
+              v-for="rep in representants"
+              v-bind:key="rep.id"
+              :value="rep.id"
+            >
+              {{ rep.nom_complet }}
             </option>
           </select>
         </div>
@@ -106,7 +110,7 @@
             v-model="client.category"
             class="form-control"
           >
-            <option disabled value>Catégorie</option>
+            <option disabled value>-- Catégorie --</option>
             <option v-for="cat in categories" v-bind:key="cat">
               {{ cat }}
             </option>
@@ -139,13 +143,37 @@ export default {
         RC: "",
         ICE: "",
         category: "",
+        representant: "",
       },
+      representants: [],
       categories: ["Fournisseur", "Client"],
       pagination: {},
       edit: false, //same form to add and edit => if edit : we're going to update so edit = true
     };
   },
+  created() {
+    this.fetchContacts();
+  },
   methods: {
+    fetchContacts() {
+      fetch("/api/contacts")
+        .then((res) => res.json()) //formate the data to json format
+        .then((res) => {
+          this.index = res.meta.last_page;
+          this.representants = res.data;
+
+          if (this.index != 1) {
+            for (let i = 2; i <= this.index; i++) {
+              fetch("/api/contacts?page=" + i)
+                .then((res) => res.json()) //formate the data to json format
+                .then((res) => {
+                  //res is an object
+                  this.representants = this.representants.concat(res.data);
+                });
+            }
+          }
+        });
+    },
     addClient() {
       //used for add and update
       if (this.edit === false) {

@@ -15,8 +15,8 @@ import Clients from "@/js//components/Clients.vue";
 import ClientsList from "@/js//components/ClientsList.vue";
 import Factures from "@/js//components/Factures.vue";
 import FacturesList from "@/js//components/FacturesList.vue";
-import Gerants from "@/js//components/Gerants.vue";
-import GerantsList from "@/js//components/GerantsList.vue";
+import Contacts from "@/js//components/Contacts.vue";
+import ContactsList from "@/js//components/ContactsList.vue";
 import Navires from "@/js//components/Navires.vue";
 import NaviresList from "@/js//components/NaviresList.vue";
 
@@ -38,9 +38,9 @@ const router = new VueRouter({
             component: Factures
         },
         {
-            path: "/gerants",
-            name: "gerants",
-            component: Gerants
+            path: "/contacts",
+            name: "contacts",
+            component: Contacts
         },
         {
             path: "/navires",
@@ -63,9 +63,9 @@ const router = new VueRouter({
             component: NaviresList
         },
         {
-            path: "/gerantsList",
-            name: "gerantsList",
-            component: GerantsList
+            path: "/contactsList",
+            name: "contactsList",
+            component: ContactsList
         }
     ]
 });
@@ -77,8 +77,8 @@ const app = new Vue({
         Clients,
         Factures,
         FacturesList,
-        Gerants,
-        GerantsList,
+        Contacts,
+        ContactsList,
         Navires,
         ClientsList,
         Style

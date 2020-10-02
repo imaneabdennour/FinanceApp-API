@@ -1,144 +1,378 @@
 <template>
-  <div
-    style="
-      width: 50%;
-      margin: auto;
-      background-color: white;
-      padding: 20px;
-      margin-top: 15px;
-    "
-  >
-    <h2 class="center">Gestion de Facture</h2>
-    <br />
-    <form @submit.prevent="addFacture" method="post" class="mb-3">
-      <div class="form-group">
-        <select name="category" v-model="facture.client" class="form-control">
-          <option value>-- Entreprise --</option>
-          <option v-for="entr in entreprises" v-bind:key="entr.entreprise">
-            {{ entr.nom_entreprise }}
-          </option>
-        </select>
-      </div>
+  <div>
+    <div class="leftDiv">
+      <h2 class="center">Gestion de Facture</h2>
+      <br />
+      <form @submit.prevent="addFacture" method="post" class="mb-3">
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label">Client</label>
+          <div class="col-sm-8">
+            <select
+              name="category"
+              v-model="facture.client"
+              class="form-control"
+              @change="InfoClient"
+            >
+              <option value="no value" disabled>-- Entreprise --</option>
+              <option v-for="entr in entreprises" v-bind:key="entr.entreprise">
+                {{ entr.nom_entreprise }}
+              </option>
+            </select>
+          </div>
+        </div>
 
-      <div class="form-group">
-        <label for="proforma" style="margin-right: 100px">Proforma</label>
-        <input
-          type="radio"
-          name="proforma"
-          value="Oui"
-          v-model="facture.proforma"
-          @change="CalculNumFacture1"
-        />
-        <span style="margin-right: 20px">Oui</span>
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label">Proforma</label>
+          <div class="col-sm-8">
+            <input
+              type="radio"
+              name="proforma"
+              value="Oui"
+              v-model="facture.proforma"
+              @change="CalculNumFacture1"
+            />
+            <span style="margin-right: 30px">Oui</span>
 
-        <input
-          type="radio"
-          name="proforma"
-          value="Non"
-          v-model="facture.proforma"
-          @change="CalculNumFacture1"
-        />
-        <span>Non</span>
-      </div>
+            <input
+              type="radio"
+              name="proforma"
+              value="Non"
+              v-model="facture.proforma"
+              @change="CalculNumFacture1"
+            />
+            <span>Non</span>
+          </div>
+        </div>
 
-      <div class="form-group" v-if="facture.proforma == 'Non'">
-        <select
-          name="type"
-          v-model="facture.type"
-          class="form-control"
-          @change="CalculNumFacture2"
+        <div class="form-group row" v-if="facture.proforma == 'Non'">
+          <label class="col-sm-4 col-form-label">Type</label>
+          <div class="col-sm-8">
+            <select
+              name="type"
+              v-model="facture.type"
+              class="form-control"
+              @change="CalculNumFacture2"
+            >
+              <option value>-- Type --</option>
+              <option v-for="type in types" v-bind:key="type">
+                {{ type }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label">Num de facture</label>
+          <div class="col-sm-8">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Num de facture"
+              v-model="facture.num_facture"
+              disabled
+            />
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label">Représentant</label>
+          <div class="col-sm-8">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Num de commande"
+              v-model="facture.num_commande"
+              @keypress="onlyNumber"
+              disabled
+            />
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label">Condition</label>
+          <div class="col-sm-8">
+            <select
+              name="condition"
+              v-model="facture.condition"
+              class="form-control"
+            >
+              <option disabled value>-- Condition --</option>
+              <option v-for="cond in conditions" v-bind:key="cond">
+                {{ cond }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label">Navire</label>
+          <div class="col-sm-8">
+            <select name="navire" v-model="facture.navire" class="form-control">
+              <option value disabled>-- Navire --</option>
+              <option v-for="entr in actifNavires" v-bind:key="entr.nom_navire">
+                {{ entr.nom_navire }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label">Statut</label>
+          <div class="col-sm-8">
+            <input
+              type="radio"
+              name="statu"
+              value="Payé"
+              v-model="facture.statut"
+            />
+            <span style="margin-right: 20px">Payé</span>
+
+            <input
+              type="radio"
+              name="statu"
+              value="Non payé"
+              v-model="facture.statut"
+            />
+            <span>Non payé</span>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label">Date</label>
+          <div class="col-sm-8">
+            <input
+              type="date"
+              value="dateFormate"
+              class="form-control"
+              v-model="facture.date"
+            />
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label">Nature</label>
+          <div class="col-sm-8">
+            <select
+              name="navire"
+              v-model="facture.nature"
+              class="form-control"
+              @change="
+                pourcentageTVA();
+                calculTVA();
+              "
+            >
+              <option value>-- Nature --</option>
+              <option v-for="nat in natures" v-bind:key="nat.nom">
+                {{ nat.nom }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <hr />
+
+        <h3>Produit</h3>
+
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label">Produit</label>
+          <div class="col-sm-8">
+            <select
+              name="navire"
+              v-model="facture.produit"
+              class="form-control"
+            >
+              <option value>-- Produits --</option>
+              <option v-for="prod in produits" v-bind:key="prod">
+                {{ prod }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label">Quantité</label>
+          <div class="col-sm-8">
+            <input
+              type="number"
+              class="form-control"
+              v-model="facture.quantite"
+              @change="
+                calcul_montant_HT();
+                calculTVA();
+              "
+              min="0.01"
+              step="0.01"
+            />
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label">Prix unitaire</label>
+          <div class="col-sm-8">
+            <input
+              type="number"
+              class="form-control"
+              v-model="facture.prix_unit"
+              @change="
+                calcul_montant_HT();
+                calculTVA();
+              "
+              min="0.01"
+              step="0.01"
+            />
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label">Montant HT</label>
+          <div class="col-sm-8">
+            <input
+              type="number"
+              class="form-control"
+              v-model="facture.montant_HT"
+              disabled
+              @change="calcul_montant_TTC"
+            />
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label">Taux TVA ( % )</label>
+          <div class="col-sm-8">
+            <input
+              type="number"
+              value="dateFormate"
+              class="form-control"
+              v-model="facture.taux_TVA"
+              disabled
+            />
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label">TVA</label>
+          <div class="col-sm-8">
+            <input
+              type="text"
+              value="dateFormate"
+              class="form-control"
+              v-model="facture.TVA"
+              disabled
+              @change="calcul_montant_TTC"
+            />
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label">Montant TTC</label>
+          <div class="col-sm-8">
+            <input
+              type="text"
+              value="dateFormate"
+              class="form-control"
+              v-model="facture.montant_TTC"
+              disabled
+            />
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label">Devise</label>
+          <div class="col-sm-8">
+            <input
+              type="text"
+              value="dateFormate"
+              class="form-control"
+              v-model="facture.devise"
+            />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label">Montant en lettres</label>
+          <div class="col-sm-8">
+            <input
+              type="text"
+              value="dateFormate"
+              class="form-control"
+              v-model="facture.montant_en_lettres"
+            />
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          class="btn btn-primary btn-block"
+          style="width: 20%; margin: auto"
         >
-          <option value>-- Type --</option>
-          <option v-for="type in types" v-bind:key="type">
-            {{ type }}
-          </option>
-        </select>
-      </div>
+          Save
+        </button>
+      </form>
+    </div>
 
-      <div class="form-group">
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Num de facture"
-          v-model="facture.num_facture"
-          disabled
-        />
-      </div>
+    <div v-if="myEntreprise.nom_entreprise" class="rightDiv">
+      <h3 class="center">Informations sur {{ myEntreprise.nom_entreprise }}</h3>
+      <br />
 
-      <div class="form-group">
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Num de commande"
-          v-model="facture.num_commande"
-          @keypress="onlyNumber"
-          disabled
-        />
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label">Adresse</label>
+        <div class="col-sm-8">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Adresse"
+            v-model="myEntreprise.adresse"
+            disabled
+          />
+        </div>
       </div>
-
-      <div class="form-group">
-        <select
-          name="condition"
-          v-model="facture.condition"
-          class="form-control"
-        >
-          <option disabled value>-- Condition --</option>
-          <option v-for="cond in conditions" v-bind:key="cond">
-            {{ cond }}
-          </option>
-        </select>
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label">Ville</label>
+        <div class="col-sm-8">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Ville"
+            v-model="myEntreprise.ville"
+            disabled
+          />
+        </div>
       </div>
-
-      <div class="form-group">
-        <select name="navire" v-model="facture.navire" class="form-control">
-          <option disabled value>-- Navire --</option>
-          <option v-for="entr in actifNavires" v-bind:key="entr.nom_navire">
-            {{ entr.nom_navire }}
-          </option>
-        </select>
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label">Num de compte bancaire</label>
+        <div class="col-sm-8">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Num de compte bancaire"
+            v-model="myEntreprise.num_compte_bancaire"
+            disabled
+          />
+        </div>
       </div>
-      <div class="form-group">
-        <label style="margin-right: 100px">Statut</label>
-        <input
-          type="radio"
-          name="statu"
-          value="Payé"
-          v-model="facture.statut"
-        />
-        <span style="margin-right: 20px">Payé</span>
-
-        <input
-          type="radio"
-          name="statu"
-          value="Non payé"
-          v-model="facture.statut"
-        />
-        <span>Non payé</span>
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label">RC</label>
+        <div class="col-sm-8">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="RC"
+            v-model="myEntreprise.RC"
+            disabled
+          />
+        </div>
       </div>
-      <div class="form-group">
-        <input
-          type="date"
-          value="dateFormate"
-          class="form-control"
-          v-model="facture.date"
-        />
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label">ICE</label>
+        <div class="col-sm-8">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="ICE"
+            v-model="myEntreprise.ICE"
+            disabled
+          />
+        </div>
       </div>
-      <div class="form-group">
-        <select name="navire" v-model="facture.nature" class="form-control">
-          <option value>-- Nature --</option>
-          <option v-for="nat in natures" v-bind:key="nat">
-            {{ nat }}
-          </option>
-        </select>
-      </div>
-      <button
-        type="submit"
-        class="btn btn-primary btn-block"
-        style="width: 20%; margin: auto"
-      >
-        Save
-      </button>
-    </form>
+    </div>
   </div>
 </template>
 
@@ -157,9 +391,31 @@ export default {
         navire: "",
         statut: "",
         date: "", //date format : "2020-03-13"
+
+        produit: "",
+        quantite: "",
+        prix_unit: "",
+        montant_HT: "",
+        taux_TVA: "",
+        TVA: "",
+        montant_TTC: "",
+        devise: "",
+        montant_en_lettres: "",
       },
+
+      produits: [
+        "Maïs",
+        "Soja",
+        "Blé",
+        "Orge",
+        "Tournesol",
+        "Colza",
+        "Céréales",
+      ],
+
       types: ["Initial", "Note de crédit"],
       entreprises: [],
+      myEntreprise: [],
       conditions: [
         "Chèque à 10 jrs",
         "Effet à 60 jrs",
@@ -167,7 +423,11 @@ export default {
       ],
       navires: [],
       actifNavires: [],
-      natures: ["Marge de transformation", "Fraix d'extension", "Transport"],
+      natures: [
+        { nom: "Marge de transformation", valeur_TVA: 0.2 },
+        { nom: "Fraix d'extension", valeur_TVA: 0.2 },
+        { nom: "Transport", valeur_TVA: 0.14 },
+      ],
       pagination: {},
       edit: false, //same form to add and edit => if edit : we're going to update so edit = true
     };
@@ -185,6 +445,42 @@ export default {
     this.fetchFactures();
   },
   methods: {
+    calcul_montant_TTC() {
+      console.log("hello");
+      if (this.facture.montant_HT && this.facture.TVA) {
+        this.facture.montant_TTC = 55;
+      }
+    },
+    calculTVA() {
+      if (this.facture.montant_HT && this.facture.taux_TVA) {
+        this.facture.TVA =
+          "" +
+          ((this.facture.montant_HT * this.facture.taux_TVA) / 100).toFixed(8);
+      }
+    },
+    pourcentageTVA() {
+      for (let i = 0; i < this.natures.length; i++) {
+        if (this.natures[i].nom == this.facture.nature) {
+          this.facture.taux_TVA =
+            "" + (this.natures[i].valeur_TVA * 100).toFixed(0);
+        }
+      }
+    },
+    calcul_montant_HT() {
+      if (this.facture.quantite && this.facture.prix_unit) {
+        this.facture.montant_HT =
+          "" + (this.facture.quantite * this.facture.prix_unit).toFixed(7);
+      }
+    },
+    InfoClient() {
+      // search for object with nom_entreprise = this.facture.client
+      for (let i = 0; i < this.entreprises.length; i++) {
+        if (this.entreprises[i].nom_entreprise == this.facture.client) {
+          this.myEntreprise = this.entreprises[i];
+        }
+      }
+    },
+
     CalculNumFacture1() {
       let _this = this;
 
@@ -281,12 +577,16 @@ export default {
       let day = new Date().getDate();
 
       let z = "0";
+      let y = "";
 
       if (month >= 10) {
         z = "";
       }
+      if (day < 10) {
+        y = "0";
+      }
 
-      this.facture.date = year + "-" + z + month + "-" + day;
+      this.facture.date = year + "-" + z + month + "-" + y + day;
     },
     onlyNumber($event) {
       //console.log($event.keyCode); //keyCodes value
@@ -372,3 +672,20 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.leftDiv {
+  width: 50%;
+  background-color: white;
+  padding: 15px;
+  margin-top: 15px;
+  float: left;
+}
+.rightDiv {
+  width: 45%;
+  background-color: #c5d5c5;
+  padding: 15px;
+  margin-top: 100px;
+  float: right;
+}
+</style>

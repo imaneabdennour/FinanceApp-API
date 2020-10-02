@@ -87,17 +87,17 @@
             href="#"
             id="navbardrop"
             data-toggle="dropdown"
-            >Gerants</a
+            >Contacts</a
           >
           <div class="dropdown-menu">
             <a class="dropdown-item" href="#">
-              <router-link :to="{ name: 'gerants' }">
-                <a class="dropdown-item" href="#">Ajouter un gérant</a>
+              <router-link :to="{ name: 'contacts' }">
+                <a class="dropdown-item" href="#">Ajouter un contact</a>
               </router-link>
             </a>
             <a class="dropdown-item" href="#">
-              <router-link :to="{ name: 'gerantsList' }">
-                <a class="dropdown-item" href="#">Liste de gérants</a>
+              <router-link :to="{ name: 'contactsList' }">
+                <a class="dropdown-item" href="#">Liste des contacts</a>
               </router-link>
             </a>
           </div>
