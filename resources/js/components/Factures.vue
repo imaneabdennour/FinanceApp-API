@@ -312,8 +312,10 @@
       </form>
     </div>
 
-    <div v-if="myEntreprise.nom_entreprise" class="rightDiv">
-      <h3 class="center">Informations sur {{ myEntreprise.nom_entreprise }}</h3>
+    <div v-if="myEntreprise.nom_entreprise" class="rightDivFacture">
+      <h3 class="center">
+        Informations sur <b>{{ myEntreprise.nom_entreprise }}</b>
+      </h3>
       <br />
 
       <div class="form-group row">
@@ -689,7 +691,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .leftDiv {
   width: 50%;
   background-color: white;
@@ -697,7 +699,7 @@ export default {
   margin-top: 15px;
   float: left;
 }
-.rightDiv {
+.rightDivFacture {
   width: 45%;
   background-color: #c5d5c5;
   padding: 15px;
