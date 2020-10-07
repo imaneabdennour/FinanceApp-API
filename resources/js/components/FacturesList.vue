@@ -55,63 +55,80 @@
               </div>
             </div>
           </div>
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th>Client</th>
-                <th style="width: 90px">Proforma</th>
-                <th>Type</th>
-                <th style="width: 130px">Num de facture</th>
-                <th style="width: 95px">Num de commande</th>
-                <th style="width: 90px">Condition</th>
-                <th>Navire</th>
-                <th style="width: 70px">Statut</th>
-                <th>Date</th>
-                <th>Nature</th>
-                <th style="width: 100px">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="fac in factures" v-bind:key="fac.num_commande">
-                <td>{{ fac.client }}</td>
-                <td>{{ fac.proforma }}</td>
-                <td>{{ fac.type }}</td>
-                <td>{{ fac.num_facture }}</td>
-                <td>{{ fac.num_commande }}</td>
-                <td>{{ fac.condition }}</td>
-                <td>{{ fac.navire }}</td>
-                <td>{{ fac.statut }}</td>
-                <td>{{ fac.date }}</td>
-                <td>{{ fac.nature }}</td>
+          <div style="overflow-x: auto">
+            <table class="table-bordered">
+              <thead>
+                <tr>
+                  <th>Client</th>
+                  <th>Proforma</th>
+                  <th>Type</th>
+                  <th>Num de facture</th>
+                  <th>Num de commande</th>
+                  <th>Condition</th>
+                  <th>Navire</th>
+                  <th>Statut</th>
+                  <th>Date</th>
+                  <th>Nature</th>
+                  <th>Produit</th>
+                  <th>quantité</th>
+                  <th>Prix unitaire</th>
+                  <th>Montant HT</th>
+                  <th>Taux TVA</th>
+                  <th>TVA</th>
+                  <th>Montant TTC</th>
+                  <th>Devise</th>
+                  <th>Montant en lettres</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="fac in factures" v-bind:key="fac.num_commande">
+                  <td>{{ fac.client }}</td>
+                  <td>{{ fac.proforma }}</td>
+                  <td>{{ fac.type }}</td>
+                  <td>{{ fac.num_facture }}</td>
+                  <td>{{ fac.num_commande }}</td>
+                  <td>{{ fac.condition }}</td>
+                  <td>{{ fac.navire }}</td>
+                  <td>{{ fac.statut }}</td>
+                  <td>{{ fac.date }}</td>
+                  <td>{{ fac.nature }}</td>
 
-                <td>
-                  <a class="add" title="Add" data-toggle="tooltip">
-                    <i class="material-icons">&#xE03B;</i>
-                  </a>
-                  <a
-                    class="edit"
-                    title="Edit"
-                    data-toggle="tooltip"
-                    @click="
-                      editFacture(fac);
-                      openModel();
-                    "
-                    value="Add"
-                  >
-                    <i class="material-icons">&#xE254;</i>
-                  </a>
-                  <a
-                    class="delete"
-                    title="Delete"
-                    data-toggle="tooltip"
-                    @click="deleteFacture(facture.num_commande)"
-                  >
-                    <i class="material-icons">&#xE872;</i>
-                  </a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                  <td>{{ fac.produit }}</td>
+                  <td>{{ fac.quantite }}</td>
+                  <td>{{ fac.prix_unit }}</td>
+                  <td>{{ fac.montant_HT }}</td>
+                  <td>{{ fac.taux_TVA }}</td>
+                  <td>{{ fac.TVA }}</td>
+                  <td>{{ fac.montant_TTC }}</td>
+                  <td>{{fac.devise}</td>
+                  <td>{{ fac.montant_en_lettres }}</td>
+                  <td>
+                    <a
+                      class="edit"
+                      title="Edit"
+                      data-toggle="tooltip"
+                      @click="
+                        editFacture(fac);
+                        openModel();
+                      "
+                      value="Add"
+                    >
+                      <i class="material-icons">&#xE254;</i>
+                    </a>
+                    <a
+                      class="delete"
+                      title="Delete"
+                      data-toggle="tooltip"
+                      @click="deleteFacture(facture.num_commande)"
+                    >
+                      <i class="material-icons">&#xE872;</i>
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -298,8 +315,7 @@
 .modal-mask {
   position: fixed;
   z-index: 9998;
-  top: 0;
-  left: 0;
+
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
@@ -310,6 +326,19 @@
 .modal-wrapper {
   display: table-cell;
   vertical-align: middle;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid #ddd;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 8px;
 }
 </style>
 

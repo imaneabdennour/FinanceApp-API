@@ -55,57 +55,56 @@
               </div>
             </div>
           </div>
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th>Nom entreprise</th>
-                <th>Adresse</th>
-                <th>Ville</th>
-                <th style="width: 170px">Num compte bancaire</th>
-                <th>RC</th>
-                <th>ICE</th>
-                <th>Représentant</th>
-                <th>Catégorie</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="client in clients" :key="client.nom_entreprise">
-                <td>{{ client.nom_entreprise }}</td>
-                <td>{{ client.adresse }}</td>
-                <td>{{ client.ville }}</td>
-                <td>{{ client.num_compte_bancaire }}</td>
-                <td>{{ client.RC }}</td>
-                <td>{{ client.ICE }}</td>
-                <td>{{ client.representant }}</td>
-                <td>{{ client.category }}</td>
-                <td>
-                  <a class="add" title="Add" data-toggle="tooltip">
-                    <i class="material-icons">&#xE03B;</i>
-                  </a>
-                  <a
-                    class="edit"
-                    title="Edit"
-                    data-toggle="tooltip"
-                    @click="
-                      editClient(client);
-                      openModel();
-                    "
-                  >
-                    <i class="material-icons">&#xE254;</i>
-                  </a>
-                  <a
-                    class="delete"
-                    title="Delete"
-                    data-toggle="tooltip"
-                    @click="deleteClient(client.nom_entreprise)"
-                  >
-                    <i class="material-icons">&#xE872;</i>
-                  </a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <div style="overflow-x: auto">
+            <table class="table-bordered">
+              <thead>
+                <tr>
+                  <th>Nom entreprise</th>
+                  <th>Adresse</th>
+                  <th>Ville</th>
+                  <th>Num compte bancaire</th>
+                  <th>RC</th>
+                  <th>ICE</th>
+                  <th>Représentant</th>
+                  <th>Catégorie</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="client in clients" :key="client.nom_entreprise">
+                  <td>{{ client.nom_entreprise }}</td>
+                  <td>{{ client.adresse }}</td>
+                  <td>{{ client.ville }}</td>
+                  <td>{{ client.num_compte_bancaire }}</td>
+                  <td>{{ client.RC }}</td>
+                  <td>{{ client.ICE }}</td>
+                  <td>{{ client.representant }}</td>
+                  <td>{{ client.category }}</td>
+                  <td>
+                    <a
+                      class="edit"
+                      title="Edit"
+                      data-toggle="tooltip"
+                      @click="
+                        editClient(client);
+                        openModel();
+                      "
+                    >
+                      <i class="material-icons">&#xE254;</i>
+                    </a>
+                    <a
+                      class="delete"
+                      title="Delete"
+                      data-toggle="tooltip"
+                      @click="deleteClient(client.nom_entreprise)"
+                    >
+                      <i class="material-icons">&#xE872;</i>
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>

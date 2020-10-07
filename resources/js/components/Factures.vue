@@ -270,6 +270,7 @@
               value="dateFormate"
               class="form-control"
               v-model="facture.montant_TTC"
+              @change="calcul_montant_TTC"
             />
           </div>
         </div>
@@ -281,7 +282,7 @@
               name="navire"
               v-model="facture.devise"
               class="form-control"
-              @change="calcul_montant_TTC"
+              @change="montantChiffres"
             >
               <option value disabled>-- Devises --</option>
               <option v-for="dev in devises" v-bind:key="dev.nom">
@@ -459,7 +460,11 @@ export default {
   methods: {
     montantChiffres() {
       if (this.facture.devise) {
-        this.facture.montant_en_lettres = "RR";
+        if (this.facture.montant_TTC.toString().length > 15) {
+          this.facture.montant_en_lettres = "Hello";
+        } else {
+          this.facture.montant_en_lettres = "moins";
+        }
       }
     },
     calcul_montant_TTC() {

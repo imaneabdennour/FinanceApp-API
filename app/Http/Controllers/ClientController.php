@@ -51,6 +51,8 @@ class ClientController extends Controller
         $client->num_compte_bancaire = $request->input('num_compte_bancaire');
         $client->RC = $request->input('RC');
         $client->ICE = $request->input('ICE');
+        $client->representant = $request->input('representant');
+
         $client->category = $request->input('category');
 
         if($client->save()){

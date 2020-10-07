@@ -69,9 +69,6 @@
                 <td>{{ navire.nom_navire }}</td>
                 <td>{{ navire.statut }}</td>
                 <td>
-                  <a class="add" title="Add" data-toggle="tooltip">
-                    <i class="material-icons">&#xE03B;</i>
-                  </a>
                   <a
                     class="edit"
                     title="Edit"
