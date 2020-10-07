@@ -124,6 +124,7 @@
                     >
                       <i class="material-icons">&#xE872;</i>
                     </a>
+                    <i class="fa fa-print" aria-hidden="true"></i>
                   </td>
                 </tr>
               </tbody>
