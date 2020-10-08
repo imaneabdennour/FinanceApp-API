@@ -101,7 +101,7 @@
                   <td>{{ fac.taux_TVA }}</td>
                   <td>{{ fac.TVA }}</td>
                   <td>{{ fac.montant_TTC }}</td>
-                  <td>{{fac.devise}</td>
+                  <td>{{ fac.devise }}</td>
                   <td>{{ fac.montant_en_lettres }}</td>
                   <td>
                     <a
@@ -120,7 +120,7 @@
                       class="delete"
                       title="Delete"
                       data-toggle="tooltip"
-                      @click="deleteFacture(facture.num_commande)"
+                      @click="deleteFacture(fac.num_commande)"
                     >
                       <i class="material-icons">&#xE872;</i>
                     </a>

@@ -75,7 +75,7 @@
         </div>
 
         <div class="form-group row">
-          <label class="col-sm-4 col-form-label">Représentant</label>
+          <label class="col-sm-4 col-form-label">Num de commande</label>
           <div class="col-sm-8">
             <input
               type="text"
